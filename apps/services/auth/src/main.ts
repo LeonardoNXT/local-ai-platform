@@ -10,4 +10,4 @@ async function bootstrap() {
   console.log("Auth Service running on port 3000");
 }
 
-bootstrap();
+void bootstrap();
