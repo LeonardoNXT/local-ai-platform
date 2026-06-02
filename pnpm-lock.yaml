@@ -121,6 +121,15 @@ importers:
       '@local-ai/shared-messenger':
         specifier: workspace:*
         version: link:../../../packages/shared/messenger
+      '@nestjs/common':
+        specifier: ^11.1.24
+        version: 11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: ^11.1.24
+        version: 11.1.24(@nestjs/common@11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.24)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/platform-express':
+        specifier: ^11.1.24
+        version: 11.1.24(@nestjs/common@11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.24)
       argon2:
         specifier: ^0.44.0
         version: 0.44.0
@@ -139,10 +148,22 @@ importers:
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
       typeorm:
         specifier: ^0.3.28
         version: 0.3.30(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@5.9.3))
     devDependencies:
+      '@nestjs/cli':
+        specifier: ^11.0.21
+        version: 11.0.21(@types/node@25.9.1)
+      '@nestjs/schematics':
+        specifier: ^11.1.0
+        version: 11.1.0(chokidar@4.0.3)(typescript@5.9.3)
+      '@nestjs/testing':
+        specifier: ^11.1.24
+        version: 11.1.24(@nestjs/common@11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.24)(@nestjs/platform-express@11.1.24)
       '@types/node':
         specifier: ^25.2.3
         version: 25.9.1
