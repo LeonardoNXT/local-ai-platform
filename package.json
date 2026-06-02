@@ -5,10 +5,13 @@
   "packageManager": "pnpm@11.5.0",
   "scripts": {
     "dev:auth": "pnpm --filter @local-ai/auth-service exec nest start --watch",
-    "build:auth": "pnpm --filter @local-ai/auth-service exec nest build",
-    "generate:proto": "cd ./packages/shared/grpc/ && pnpm run build",
-    "docker:up": "cd ./infra && docker compose up --build",
-    "docker:down": "cd ./infra && docker compose -f docker-compose.yml down"
+    "dev:user": "pnpm --filter @local-ai/user-service run dev",
+    "build:auth": "pnpm --filter @local-ai/auth-service run build",
+    "build:user": "pnpm --filter @local-ai/user-service run build",
+    "build:packages": "pnpm --filter @local-ai/shared-messenger run build && pnpm --filter @local-ai/shared-grpc run build",
+    "generate:proto": "pnpm --filter @local-ai/shared-grpc run generate",
+    "docker:up": "docker compose -f infra/docker-compose.yml up --build",
+    "docker:down": "docker compose -f infra/docker-compose.yml down"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
