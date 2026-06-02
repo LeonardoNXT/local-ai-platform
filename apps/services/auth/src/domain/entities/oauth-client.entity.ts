@@ -1,0 +1,2 @@
+// OAuthClient entity placeholder
+export {};

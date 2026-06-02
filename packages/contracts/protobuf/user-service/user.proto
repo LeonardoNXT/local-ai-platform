@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package user;
+
+// Importação necessária para usar o tipo 'Empty' (equivalente ao void)
+import "google/protobuf/empty.proto";
+
+service User {
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  
+  // Ações administrativas / Status
+  rpc BanUser (BanUserRequest) returns (google.protobuf.Empty);
+  rpc DeactivateUser (DeactivateUserRequest) returns (DeactivateUserResponse);
+  rpc ReactivateUser (ReactivateUserRequest) returns (google.protobuf.Empty);
+  rpc SuspendUser (SuspendUserRequest) returns (google.protobuf.Empty);
+}
+
+// --- Create ---
+message CreateUserRequest {
+  string username = 1;
+  string name = 2;
+  string email = 3;
+  string password = 4;
+  string birthday = 5;
+}
+
+message CreateUserResponse {
+  string id = 1;
+}
+
+// --- Login ---
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string id = 1;
+}
+
+// --- Ban ---
+message BanUserRequest {
+  string id = 1;
+  string reason = 2;
+}
+
+// --- Deactivate ---
+message DeactivateUserRequest {
+  string id = 1;
+  string password = 2;
+}
+
+message DeactivateUserResponse {
+  string deletedAt = 1; // Representado como string ISO 8601
+}
+
+// --- Reactivate ---
+message ReactivateUserRequest {
+  string id = 1;
+}
+
+// --- Suspend ---
+message SuspendUserRequest {
+  string id = 1;
+}

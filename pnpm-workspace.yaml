@@ -1,0 +1,11 @@
+packages:
+  - "apps/services/*"
+  - "apps/workers/*"
+  - "packages/*"
+  - "packages/shared/*"
+
+allowBuilds:
+  "@nestjs/core": true
+  argon2: true
+  esbuild: true
+  protobufjs: true

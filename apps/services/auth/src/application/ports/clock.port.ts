@@ -1,0 +1,2 @@
+// Clock port placeholder
+export {};

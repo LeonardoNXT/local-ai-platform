@@ -1,0 +1,2 @@
+// AuthorizationCode entity placeholder
+export {};

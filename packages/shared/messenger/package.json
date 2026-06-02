@@ -1,0 +1,15 @@
+{
+  "name": "@local-ai/shared-messenger",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "typeorm": "^0.3.28",
+    "kafkajs": "^2.2.4",
+    "reflect-metadata": "^0.2.2"
+  }
+}

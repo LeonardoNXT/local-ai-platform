@@ -1,0 +1,2 @@
+// OAuth controller placeholder
+export {};

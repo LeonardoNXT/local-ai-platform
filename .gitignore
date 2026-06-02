@@ -1,0 +1,36 @@
+# dependencies
+node_modules/
+**/node_modules/
+
+# builds
+dist/
+**/dist/
+coverage/
+**/coverage/
+
+# generated protobuf
+generated/
+**/generated/
+
+# env
+.env
+.env.*
+**/.env
+**/.env.*
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# editors / OS
+.DS_Store
+.vscode/
+.idea/
+
+# docker local override
+docker-compose.override.yml
+
+# cache
+.cache/
+.turbo/

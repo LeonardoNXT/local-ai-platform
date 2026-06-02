@@ -1,0 +1,16 @@
+{
+  "name": "@local-ai/shared-grpc",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "generate": "tsx ../utils/scripts/generate-proto.ts",
+    "build": "pnpm generate && tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^1.10.1",
+    "@grpc/grpc-js": "^1.14.3",
+    "reflect-metadata": "^0.2.2"
+  }
+}

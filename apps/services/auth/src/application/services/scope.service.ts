@@ -1,0 +1,2 @@
+// Scope service placeholder
+export {};

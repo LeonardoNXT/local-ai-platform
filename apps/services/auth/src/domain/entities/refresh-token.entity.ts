@@ -1,0 +1,2 @@
+// RefreshToken entity placeholder
+export {};

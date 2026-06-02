@@ -1,0 +1,2 @@
+// Input DTO placeholder
+export {};
