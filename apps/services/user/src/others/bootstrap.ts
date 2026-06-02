@@ -21,6 +21,7 @@ import { KafkaInitializer } from "@local-ai/shared-messenger";
 import { MessagePublisher } from "@local-ai/shared-messenger";
 import { OutboxWorker } from "@local-ai/shared-messenger";
 import { TypeOrmOutboxRepository } from "@local-ai/shared-messenger";
+import { HttpBootstrap } from "../infra/http/nest/http.bootstrap";
 
 export async function boostrap() {
   await AppDataSource.initialize();
@@ -76,5 +77,6 @@ export async function boostrap() {
   const outboxWorker = OutboxWorker.create(messagePublisher, outboxRepository);
 
   grpc.start();
+  await HttpBootstrap.start();
   await outboxWorker.start();
 }
