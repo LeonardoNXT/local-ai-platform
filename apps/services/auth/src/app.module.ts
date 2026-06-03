@@ -6,6 +6,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { SigningKeyOrmEntity } from "./infrastructure/persistence/entities/signing-key.orm-entity";
 import { CryptoModule } from "./modules/crypto.module";
 import { EnsureSigningKeyUsecase } from "./application/usecases/discovery/ensure-signing-key.usecase";
+import { AuthModule } from "./modules/auth.module";
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { EnsureSigningKeyUsecase } from "./application/usecases/discovery/ensure
     }),
     OidcModule,
     CryptoModule,
+    AuthModule,
     PersistenceModule,
   ],
   controllers: [HealthCheckController],

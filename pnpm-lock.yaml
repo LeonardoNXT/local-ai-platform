@@ -51,6 +51,12 @@ importers:
 
   apps/services/auth:
     dependencies:
+      '@grpc/grpc-js':
+        specifier: ^1.14.4
+        version: 1.14.4
+      '@local-ai/shared-grpc':
+        specifier: workspace:*
+        version: link:../../../packages/shared/grpc
       '@nestjs/common':
         specifier: ^11.1.24
         version: 11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -133,6 +139,12 @@ importers:
       argon2:
         specifier: ^0.44.0
         version: 0.44.0
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.15.1
+        version: 0.15.1
       dotenv:
         specifier: ^17.3.1
         version: 17.4.1
