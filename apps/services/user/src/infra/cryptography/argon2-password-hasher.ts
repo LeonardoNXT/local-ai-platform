@@ -15,6 +15,6 @@ export class Argon2PasswordHasher implements PasswordHasher {
     plainPassword: Password,
     hashed: HashedPassword,
   ): Promise<boolean> {
-    return await argon2.verify(plainPassword.getValue(), hashed.getValue());
+    return await argon2.verify(hashed.getValue(), plainPassword.getValue());
   }
 }

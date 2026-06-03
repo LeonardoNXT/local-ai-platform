@@ -1,5 +1,5 @@
 import "reflect-metadata";
 import "dotenv/config";
-import { boostrap } from "./others/bootstrap";
+import { bootstrap } from "./others/bootstrap";
 
-void boostrap();
+void bootstrap();
