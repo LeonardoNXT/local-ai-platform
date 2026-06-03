@@ -12,6 +12,10 @@ RUN pnpm install --frozen-lockfile
 
 COPY apps/services/auth ./apps/services/auth
 
+WORKDIR /app/packages/shared/grpc
+
+RUN pnpm build
+
 WORKDIR /app/apps/services/auth
 
 RUN pnpm build

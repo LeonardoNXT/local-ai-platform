@@ -8,6 +8,8 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.14.4",
+    "@local-ai/shared-grpc": "workspace:*",
     "@nestjs/common": "^11.1.24",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.1.24",
