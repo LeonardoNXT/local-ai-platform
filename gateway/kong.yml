@@ -15,7 +15,14 @@ services:
           - /oauth
         strip_path: false
 
-      - name: auth-api-routes
+      - name: auth-routes
         paths:
           - /auth
+        strip_path: true
+  - name: user-service
+    url: http://user-service:3001
+    routes:
+      - name: users
+        paths:
+          - /users
         strip_path: false

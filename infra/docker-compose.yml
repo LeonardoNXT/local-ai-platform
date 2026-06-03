@@ -138,6 +138,7 @@ services:
       DATABASE_PORT: 5432
       DATABASE_USER: admin
       DATABASE_PASSWORD: admin
+      USER_GRPC_URL: user-service:50051
       DATABASE_NAME: local_ai_auth
     expose:
       - "3002"
