@@ -1,0 +1,21 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - name: auth-service
+    url: http://auth-service:3002
+    routes:
+      - name: auth-well-known-routes
+        paths:
+          - /.well-known
+        strip_path: false
+
+      - name: auth-oauth-routes
+        paths:
+          - /oauth
+        strip_path: false
+
+      - name: auth-api-routes
+        paths:
+          - /auth
+        strip_path: false
