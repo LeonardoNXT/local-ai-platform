@@ -1,2 +1,3 @@
-// ID generator port placeholder
-export {};
+export abstract class IdGeneratorPort {
+  abstract generate(): string;
+}
