@@ -1,2 +1,0 @@
-// TokenFamily entity placeholder
-export {};
