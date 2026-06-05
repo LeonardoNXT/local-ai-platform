@@ -1,5 +1,4 @@
 import { RefreshTokenFamily } from "../../../domain/entities/refresh-token-family.entity";
-import { type RefreshTokenFamilyStatus } from "../../../domain/enums/refresh-token-family-status";
 
 import { TokenTimeline } from "../../../domain/value-objects/token-timeline.vo";
 import { RefreshTokenFamilyOrmEntity } from "../entities/refresh-token-family.orm-entity";
@@ -9,7 +8,7 @@ export class RefreshTokenFamilyMapper {
     return RefreshTokenFamily.restore(orm.id, {
       userId: orm.user_id,
       deviceId: orm.device_id,
-      status: orm.status as RefreshTokenFamilyStatus,
+      status: orm.status,
       refreshRound: orm.refresh_round,
       revokedReason: orm.revoked_reason,
       timeline: TokenTimeline.restore(orm.expires_at, null, orm.revoked_at),

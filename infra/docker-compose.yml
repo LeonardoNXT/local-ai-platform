@@ -32,6 +32,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./postgres/init-databases.sh:/docker-entrypoint-initdb.d/01-init-databases.sh:ro
     networks:
       - local-ai
 
@@ -138,6 +139,7 @@ services:
       DATABASE_PORT: 5432
       DATABASE_USER: admin
       DATABASE_PASSWORD: admin
+      MOCK_PUBLIC_IP: 45.181.33.153
       USER_GRPC_URL: user-service:50051
       DATABASE_NAME: local_ai_auth
     expose:

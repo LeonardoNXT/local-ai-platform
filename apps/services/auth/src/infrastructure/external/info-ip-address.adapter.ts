@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import type {
   InfoIpAddressPort,
   InfoIpAddressPortOutput,
@@ -23,11 +24,16 @@ export interface IpLookupSuccessResponse {
 export interface IpLookupFailResponse {
   query: string;
   status: "fail";
-  message: string; // O IP-API retorna a razão da falha aqui (ex: "invalid query")
+  message: string;
 }
-
+@Injectable()
 export class InfoIpAddressAdapter implements InfoIpAddressPort {
   public async get(payload: string): Promise<InfoIpAddressPortOutput | Error> {
+    console.log({
+      name: "ip-address",
+      ip: payload,
+    });
+
     const response = await fetch(`http://ip-api.com/json/${payload}`);
 
     try {

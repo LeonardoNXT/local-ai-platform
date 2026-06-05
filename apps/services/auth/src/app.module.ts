@@ -7,6 +7,9 @@ import { SigningKeyOrmEntity } from "./infrastructure/persistence/entities/signi
 import { CryptoModule } from "./modules/crypto.module";
 import { EnsureSigningKeyUsecase } from "./application/usecases/discovery/ensure-signing-key.usecase";
 import { AuthModule } from "./modules/auth.module";
+import { RefreshTokenFamilyOrmEntity } from "./infrastructure/persistence/entities/refresh-token-family.orm-entity";
+import { RefreshTokenOrmEntity } from "./infrastructure/persistence/entities/refresh-token.orm-entity";
+import { DeviceOrmEntity } from "./infrastructure/persistence/entities/device.orm-entity";
 
 @Module({
   imports: [
@@ -17,7 +20,12 @@ import { AuthModule } from "./modules/auth.module";
       username: process.env.DATABASE_USER ?? "admin",
       password: process.env.DATABASE_PASSWORD ?? "admin",
       database: process.env.DATABASE_NAME ?? "local_ai",
-      entities: [SigningKeyOrmEntity],
+      entities: [
+        SigningKeyOrmEntity,
+        RefreshTokenFamilyOrmEntity,
+        RefreshTokenOrmEntity,
+        DeviceOrmEntity,
+      ],
       synchronize: true,
     }),
     OidcModule,

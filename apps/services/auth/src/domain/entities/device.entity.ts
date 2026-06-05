@@ -4,13 +4,16 @@ export enum DeviceType {
   DESKTOP = "desktop",
   MOBILE = "mobile",
   TABLET = "tablet",
+  CONSOLE = "console",
+  EMBEDDED = "embedded",
+  SMART_TV = "smarttv",
+  WEARABLE = "wearable",
+  XR = "xr",
   UNKNOWN = "unknown",
 }
-
 export interface DeviceProps {
-  userId: string;
   name: string | null;
-  type: DeviceType | null;
+  type: DeviceType;
   location: DeviceLocation;
   userAgent: string;
   lastSeenAt: Date;
@@ -45,15 +48,11 @@ export class Device {
     return this._id;
   }
 
-  get userId(): string {
-    return this._props.userId;
-  }
-
   get name(): string | null {
     return this._props.name;
   }
 
-  get type(): string | null {
+  get type(): DeviceType {
     return this._props.type;
   }
 

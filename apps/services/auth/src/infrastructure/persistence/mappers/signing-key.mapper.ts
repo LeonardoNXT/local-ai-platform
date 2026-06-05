@@ -16,7 +16,6 @@ export class SigningKeyMapper {
 
   static toOrm(domain: SigningKey): SigningKeyOrmEntity {
     const entity = new SigningKeyOrmEntity();
-
     entity.id = domain.id;
     entity.kid = domain.kid;
     entity.algorithm = domain.algorithm;

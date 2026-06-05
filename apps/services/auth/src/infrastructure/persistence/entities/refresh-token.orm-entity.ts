@@ -21,9 +21,6 @@ export class RefreshTokenOrmEntity {
   @Column({ name: "user_id", type: "uuid" })
   user_id!: string;
 
-  @Column({ name: "user_id", type: "uuid" })
-  user!: string;
-
   @Column({ name: "latest", type: "boolean" })
   latest!: boolean;
 

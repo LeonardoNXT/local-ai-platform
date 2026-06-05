@@ -1,5 +1,4 @@
 import { RefreshToken } from "../../../domain/entities/refresh-token.entity";
-import { type RefreshTokenStatus } from "../../../domain/enums/refresh-token-status";
 import { TokenTimeline } from "../../../domain/value-objects/token-timeline.vo";
 import { RefreshTokenOrmEntity } from "../entities/refresh-token.orm-entity";
 
@@ -9,7 +8,7 @@ export class RefreshTokenMapper {
       tokenHash: orm.token_hash,
       userId: orm.user_id,
       latest: orm.latest,
-      status: orm.status as RefreshTokenStatus,
+      status: orm.status,
       refreshTokenFamilyId: orm.refresh_token_family_id,
       refreshRound: orm.refresh_round,
       previousRefreshTokenId: orm.previous_refresh_token_id,

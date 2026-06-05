@@ -20,9 +20,6 @@ export class RefreshTokenFamilyOrmEntity {
   @Column({ name: "user_id", type: "uuid" })
   user_id!: string;
 
-  @Column({ name: "user_id", type: "uuid" })
-  user!: string;
-
   @Column({ name: "device_id", type: "uuid" })
   device_id!: string;
 

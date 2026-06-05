@@ -5,7 +5,6 @@ import { DeviceOrmEntity } from "../entities/device.orm-entity";
 export class DeviceMapper {
   public static toDomain(orm: DeviceOrmEntity): Device {
     return Device.restore(orm.id, {
-      userId: orm.user_id,
       name: orm.name,
       type: orm.type,
       location: DeviceLocation.create({
@@ -24,7 +23,6 @@ export class DeviceMapper {
   public static toOrm(domain: Device): DeviceOrmEntity {
     const orm = new DeviceOrmEntity();
     orm.id = domain.id;
-    orm.user_id = domain.userId;
     orm.name = domain.name;
     orm.type = domain.type;
     orm.city = domain.location.city;

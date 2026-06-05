@@ -72,7 +72,6 @@ export class LoginWithPasswordUsecase {
     const { device_id, device_token } = await this.getDevice({
       ip_address: input.ip_address,
       user_agent: input.user_agent,
-      user_id,
       device_name: input.device_name,
       device_token: input.device_token,
     });
@@ -123,7 +122,6 @@ export class LoginWithPasswordUsecase {
 
   private async getDevice(payload: {
     user_agent: string;
-    user_id: string;
     device_name?: string;
     device_token?: string;
     ip_address: string;
@@ -145,7 +143,6 @@ export class LoginWithPasswordUsecase {
       const deviceEntity = Device.create(this.idGenerator.generate(), {
         location: DeviceLocation.create(info),
         userAgent: payload.user_agent,
-        userId: payload.user_id,
         type: deviceType,
         name: payload.device_name ?? deviceName,
       });

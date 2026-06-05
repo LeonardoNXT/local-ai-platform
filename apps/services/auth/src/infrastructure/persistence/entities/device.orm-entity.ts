@@ -5,20 +5,18 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { DeviceType } from "../../../domain/entities/device.entity";
 
 @Entity("device")
 export class DeviceOrmEntity {
   @PrimaryColumn("uuid")
   id!: string;
 
-  @Column({ name: "user_id", type: "uuid" })
-  user_id!: string;
-
   @Column({ name: "name", type: "varchar", nullable: true })
   name!: string | null;
 
-  @Column({ name: "type", type: "varchar", nullable: true })
-  type!: string | null;
+  @Column({ name: "type", type: "enum", enum: DeviceType, nullable: false })
+  type!: DeviceType;
 
   @Column({ name: "region", type: "varchar", nullable: true })
   region!: string | null;

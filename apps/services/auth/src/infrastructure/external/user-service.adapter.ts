@@ -3,6 +3,7 @@ import { User } from "@local-ai/shared-grpc";
 import { credentials } from "@grpc/grpc-js";
 import type { LoginResponse } from "@local-ai/shared-grpc/dist/generated/user-service/user";
 import { UserProviderPort } from "../../application/ports/user-provider.port";
+import { GrpcToHttpErrorMapper } from "./mappers/grpc-http-error-mapper";
 
 @Injectable()
 export class UserServiceAdapter implements UserProviderPort {
@@ -18,20 +19,15 @@ export class UserServiceAdapter implements UserProviderPort {
   public async validateCredentials(input: {
     email: string;
     password: string;
-  }): Promise<LoginResponse | null> {
-    const response = await this.login(input.email, input.password);
-
-    if (response instanceof Error) {
-      return null;
+  }): Promise<LoginResponse> {
+    try {
+      return await this.login(input.email, input.password);
+    } catch (error) {
+      GrpcToHttpErrorMapper.throw(error);
     }
-
-    return response;
   }
 
-  private async login(
-    email: string,
-    password: string,
-  ): Promise<LoginResponse | Error> {
+  private async login(email: string, password: string): Promise<LoginResponse> {
     return await new Promise((resolve, reject) => {
       this.client.login({ email, password }, (error, response) => {
         if (error) {
@@ -40,11 +36,7 @@ export class UserServiceAdapter implements UserProviderPort {
         }
 
         if (!response?.id) {
-          resolve(
-            new Error(
-              "Houve um erro interno entre a comunicação dos serviços, tente novamente mais tarde.",
-            ),
-          );
+          reject(new Error("Invalid gRPC response: missing user id."));
           return;
         }
 
