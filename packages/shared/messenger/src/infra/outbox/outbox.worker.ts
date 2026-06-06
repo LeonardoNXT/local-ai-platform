@@ -1,14 +1,13 @@
 import { type MessagePublisherContract } from "../contracts/message-publisher.contract";
+import { type OutboxWorkerPort } from "./oubox-worker.port";
 import { type OutboxPort } from "./outbox.port";
 
-export class OutboxWorker {
-  private readonly messagePublisher: MessagePublisherContract;
-  private readonly outboxRepository: OutboxPort;
+export class OutboxWorker implements OutboxWorkerPort {
   private isRunning = false;
 
   private constructor(
-    messagePublisher: MessagePublisherContract,
-    outboxRepository: OutboxPort,
+    private readonly messagePublisher: MessagePublisherContract,
+    private readonly outboxRepository: OutboxPort,
   ) {
     this.messagePublisher = messagePublisher;
     this.outboxRepository = outboxRepository;

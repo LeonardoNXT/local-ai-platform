@@ -8,8 +8,8 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "typeorm": "^0.3.28",
-    "kafkajs": "^2.2.4",
+    "kafkajs": "catalog:",
+    "typeorm": "catalog:",
     "reflect-metadata": "^0.2.2"
   }
 }

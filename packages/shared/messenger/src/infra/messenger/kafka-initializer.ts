@@ -30,7 +30,7 @@ export class KafkaInitializer implements EventPublisher {
     });
   }
 
-  async producerInitializer(): Promise<void> {
+  public async producerInitializer(): Promise<void> {
     const producer = this.kafka.producer({
       createPartitioner: Partitioners.LegacyPartitioner,
     });

@@ -5,6 +5,6 @@ export type MessageSendBatchInput = {
   payload: string;
 }[];
 
-export interface MessagePublisherContract {
-  publishBatch(outbox: MessageSendBatchInput): Promise<void>;
+export abstract class MessagePublisherContract {
+  abstract publishBatch(outbox: MessageSendBatchInput): Promise<void>;
 }

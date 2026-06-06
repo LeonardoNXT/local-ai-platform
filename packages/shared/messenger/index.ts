@@ -14,3 +14,4 @@ export { CONSUME_UNPROCESSED } from "./src/infra/queries/consume-unprocessed";
 export { MARK_AS_PUBLISHED } from "./src/infra/queries/mark-as-published";
 export { type OutboxType } from "./src/infra/dtos/outbox.dto";
 export { type DomainEventModel } from "./src/infra/dtos/domain-events.dto";
+export { OutboxWorkerPort } from "./src/infra/outbox/oubox-worker.port";

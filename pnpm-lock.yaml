@@ -4,6 +4,15 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    kafkajs:
+      specifier: 2.2.4
+      version: 2.2.4
+    typeorm:
+      specifier: 0.3.30
+      version: 0.3.30
+
 importers:
 
   .:
@@ -11,6 +20,9 @@ importers:
       '@bufbuild/protobuf':
         specifier: ^1.10.1
         version: 1.10.1
+      typeorm:
+        specifier: 'catalog:'
+        version: 0.3.30(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3))
     devDependencies:
       '@eslint/js':
         specifier: ^10.0.1
@@ -57,6 +69,9 @@ importers:
       '@local-ai/shared-grpc':
         specifier: workspace:*
         version: link:../../../packages/shared/grpc
+      '@local-ai/shared-messenger':
+        specifier: workspace:*
+        version: link:../../../packages/shared/messenger
       '@nestjs/common':
         specifier: ^11.1.24
         version: 11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -71,7 +86,7 @@ importers:
         version: 11.1.24(@nestjs/common@11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.24)
       '@nestjs/typeorm':
         specifier: ^11.0.1
-        version: 11.0.1(@nestjs/common@11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.24)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.28(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3)))
+        version: 11.0.1(@nestjs/common@11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.24)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.30(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3)))
       argon2:
         specifier: ^0.44.0
         version: 0.44.0
@@ -87,6 +102,9 @@ importers:
       jose:
         specifier: ^6.2.3
         version: 6.2.3
+      kafkajs:
+        specifier: 'catalog:'
+        version: 2.2.4
       pg:
         specifier: ^8.21.0
         version: 8.21.0
@@ -97,8 +115,8 @@ importers:
         specifier: ^7.8.2
         version: 7.8.2
       typeorm:
-        specifier: 0.3.28
-        version: 0.3.28(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3))
+        specifier: 'catalog:'
+        version: 0.3.30(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3))
       ua-parser-js:
         specifier: ^2.0.10
         version: 2.0.10
@@ -152,7 +170,7 @@ importers:
         specifier: ^17.3.1
         version: 17.4.1
       kafkajs:
-        specifier: ^2.2.4
+        specifier: 'catalog:'
         version: 2.2.4
       pg:
         specifier: ^8.18.0
@@ -167,7 +185,7 @@ importers:
         specifier: ^7.8.2
         version: 7.8.2
       typeorm:
-        specifier: ^0.3.28
+        specifier: 'catalog:'
         version: 0.3.30(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@5.9.3))
     devDependencies:
       '@nestjs/cli':
@@ -204,13 +222,13 @@ importers:
   packages/shared/messenger:
     dependencies:
       kafkajs:
-        specifier: ^2.2.4
+        specifier: 'catalog:'
         version: 2.2.4
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
       typeorm:
-        specifier: ^0.3.28
+        specifier: 'catalog:'
         version: 0.3.30(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3))
 
 packages:
@@ -1058,6 +1076,10 @@ packages:
 
   ansis@4.2.0:
     resolution: {integrity: sha512-HqZ5rWlFjGiV0tDm3UxxgNRqsOTniqoKZu0pIAfh7TZQMGuZK+hH0drySty0si0QXj1ieop4+SkSfPZBPPkHig==}
+    engines: {node: '>=14'}
+
+  ansis@4.3.1:
+    resolution: {integrity: sha512-BJ8/l4R5LRE7hW9WdSuGYrLSHi2ynxeFpDFbH0K/CgNeY/tyhk+vO6TYxXC5r5CpUhNVX310xzPsN/H9lCdfOA==}
     engines: {node: '>=14'}
 
   app-root-path@3.1.0:
@@ -2384,61 +2406,6 @@ packages:
   typedarray@0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
 
-  typeorm@0.3.28:
-    resolution: {integrity: sha512-6GH7wXhtfq2D33ZuRXYwIsl/qM5685WZcODZb7noOOcRMteM9KF2x2ap3H0EBjnSV0VO4gNAfJT5Ukp0PkOlvg==}
-    engines: {node: '>=16.13.0'}
-    hasBin: true
-    peerDependencies:
-      '@google-cloud/spanner': ^5.18.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-      '@sap/hana-client': ^2.14.22
-      better-sqlite3: ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0
-      ioredis: ^5.0.4
-      mongodb: ^5.8.0 || ^6.0.0
-      mssql: ^9.1.1 || ^10.0.0 || ^11.0.0 || ^12.0.0
-      mysql2: ^2.2.5 || ^3.0.1
-      oracledb: ^6.3.0
-      pg: ^8.5.1
-      pg-native: ^3.0.0
-      pg-query-stream: ^4.0.0
-      redis: ^3.1.1 || ^4.0.0 || ^5.0.14
-      sql.js: ^1.4.0
-      sqlite3: ^5.0.3
-      ts-node: ^10.7.0
-      typeorm-aurora-data-api-driver: ^2.0.0 || ^3.0.0
-    peerDependenciesMeta:
-      '@google-cloud/spanner':
-        optional: true
-      '@sap/hana-client':
-        optional: true
-      better-sqlite3:
-        optional: true
-      ioredis:
-        optional: true
-      mongodb:
-        optional: true
-      mssql:
-        optional: true
-      mysql2:
-        optional: true
-      oracledb:
-        optional: true
-      pg:
-        optional: true
-      pg-native:
-        optional: true
-      pg-query-stream:
-        optional: true
-      redis:
-        optional: true
-      sql.js:
-        optional: true
-      sqlite3:
-        optional: true
-      ts-node:
-        optional: true
-      typeorm-aurora-data-api-driver:
-        optional: true
-
   typeorm@0.3.30:
     resolution: {integrity: sha512-8T35PzjefOdqc2ZR9mwLQj0pUGp6lQhMbK2EvVMwJVJWlaoHm0v/Q6dThNOZkFchD+0yMg8gwjKM28ePiLSXSQ==}
     engines: {node: '>=16.13.0'}
@@ -3135,13 +3102,13 @@ snapshots:
     optionalDependencies:
       '@nestjs/platform-express': 11.1.24(@nestjs/common@11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.24)
 
-  '@nestjs/typeorm@11.0.1(@nestjs/common@11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.24)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.28(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3)))':
+  '@nestjs/typeorm@11.0.1(@nestjs/common@11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.24)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.30(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3)))':
     dependencies:
       '@nestjs/common': 11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 11.1.24(@nestjs/common@11.1.24(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.24)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       reflect-metadata: 0.2.2
       rxjs: 7.8.2
-      typeorm: 0.3.28(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3))
+      typeorm: 0.3.30(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3))
 
   '@nuxt/opencollective@0.4.1':
     dependencies:
@@ -3476,6 +3443,8 @@ snapshots:
   ansi-styles@6.2.3: {}
 
   ansis@4.2.0: {}
+
+  ansis@4.3.1: {}
 
   app-root-path@3.1.0: {}
 
@@ -4808,35 +4777,10 @@ snapshots:
 
   typedarray@0.0.6: {}
 
-  typeorm@0.3.28(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3)):
-    dependencies:
-      '@sqltools/formatter': 1.2.5
-      ansis: 4.2.0
-      app-root-path: 3.1.0
-      buffer: 6.0.3
-      dayjs: 1.11.21
-      debug: 4.4.3
-      dedent: 1.7.2
-      dotenv: 16.6.1
-      glob: 10.5.0
-      reflect-metadata: 0.2.2
-      sha.js: 2.4.12
-      sql-highlight: 6.1.0
-      tslib: 2.8.1
-      uuid: 11.1.1
-      yargs: 17.7.2
-    optionalDependencies:
-      pg: 8.21.0
-      redis: 5.12.1
-      ts-node: 10.9.2(@types/node@25.9.1)(typescript@6.0.3)
-    transitivePeerDependencies:
-      - babel-plugin-macros
-      - supports-color
-
   typeorm@0.3.30(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@5.9.3)):
     dependencies:
       '@sqltools/formatter': 1.2.5
-      ansis: 4.2.0
+      ansis: 4.3.1
       app-root-path: 3.1.0
       buffer: 6.0.3
       dayjs: 1.11.21
@@ -4861,7 +4805,7 @@ snapshots:
   typeorm@0.3.30(pg@8.21.0)(redis@5.12.1)(ts-node@10.9.2(@types/node@25.9.1)(typescript@6.0.3)):
     dependencies:
       '@sqltools/formatter': 1.2.5
-      ansis: 4.2.0
+      ansis: 4.3.1
       app-root-path: 3.1.0
       buffer: 6.0.3
       dayjs: 1.11.21

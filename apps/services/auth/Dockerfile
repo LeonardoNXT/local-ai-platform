@@ -16,6 +16,10 @@ WORKDIR /app/packages/shared/grpc
 
 RUN pnpm build
 
+WORKDIR /app/packages/shared/messenger
+
+RUN pnpm build
+
 WORKDIR /app/apps/services/auth
 
 RUN pnpm build
