@@ -42,10 +42,13 @@ export class ExternalInitializer {
 
     const grpc = GrpcServer.create(grpcServices);
 
-    const kafka = KafkaInitializer.create({
-      clientId: "user-service",
-      brokers: [process.env.KAFKA_BROKERS || "localhost:9092"],
-    });
+    const kafka = KafkaInitializer.create(
+      {
+        clientId: "user-service",
+        brokers: [process.env.KAFKA_BROKERS || "localhost:9092"],
+      },
+      "user-service",
+    );
 
     await kafka.producerInitializer();
 
