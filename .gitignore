@@ -14,9 +14,7 @@ generated/
 
 # env
 .env
-.env.*
 **/.env
-**/.env.*
 
 # logs
 *.log

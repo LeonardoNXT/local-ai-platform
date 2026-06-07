@@ -2,7 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { User } from "@local-ai/shared-grpc";
 import { credentials } from "@grpc/grpc-js";
 import type { LoginResponse } from "@local-ai/shared-grpc/dist/generated/user-service/user";
-import { UserProviderPort } from "../../application/ports/user-provider.port";
+import {
+  RegisterProps,
+  UserProviderPort,
+} from "../../application/ports/user-provider.port";
 import { GrpcToHttpErrorMapper } from "./mappers/grpc-http-error-mapper";
 
 @Injectable()
@@ -44,6 +47,51 @@ export class UserServiceAdapter implements UserProviderPort {
           id: response.id,
         });
       });
+    });
+  }
+
+  public async register(input: RegisterProps): Promise<{ id: string }> {
+    try {
+      const id = await this.createUser(
+        input.name,
+        input.email,
+        input.password,
+        input.birthday,
+        input.username,
+        input.isEmailVerified,
+      );
+
+      return id;
+    } catch (error) {
+      GrpcToHttpErrorMapper.throw(error);
+    }
+  }
+
+  private async createUser(
+    name: string,
+    email: string,
+    password: string,
+    birthday: string,
+    username: string,
+    isEmailVerified: boolean,
+  ): Promise<{ id: string }> {
+    return await new Promise((resolve, reject) => {
+      this.client.createUser(
+        { name, email, birthday, password, username, isEmailVerified },
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          if (!response.id) {
+            reject(new Error("Invalid gRPC response: missing user id."));
+          }
+
+          resolve({
+            id: response.id,
+          });
+        },
+      );
     });
   }
 }

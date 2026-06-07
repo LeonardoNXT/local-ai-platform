@@ -28,11 +28,5 @@ export type UserProps = {
 
 export type CreateUserProps = Omit<
   UserProps,
-  | "id"
-  | "isEmailVerified"
-  | "passwordHistory"
-  | "status"
-  | "deletedAt"
-  | "createdAt"
-  | "updatedAt"
+  "id" | "passwordHistory" | "status" | "deletedAt" | "createdAt" | "updatedAt"
 >;

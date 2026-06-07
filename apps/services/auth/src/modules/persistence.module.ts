@@ -18,6 +18,7 @@ import {
 import { Module } from "@nestjs/common";
 import { DataSource } from "typeorm";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { OAuthAcoountsOrmEntity } from "../infrastructure/persistence/entities/oauth-client.orm-entity";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       RefreshTokenOrmEntity,
       DeviceOrmEntity,
       OutboxOrmEntity,
+      OAuthAcoountsOrmEntity,
     ]),
   ],
   providers: [

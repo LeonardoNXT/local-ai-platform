@@ -3,7 +3,7 @@ import { type CreateUserUseCase } from "../../../../../application/usecases/crea
 
 type CreateUserInputDtoInfra = Pick<
   User.CreateUserRequest,
-  "name" | "username" | "birthday" | "email" | "password"
+  "name" | "username" | "birthday" | "email" | "password" | "isEmailVerified"
 >;
 type CreateUserOutputDtoInfra = Pick<User.CreateUserResponse, "id">;
 

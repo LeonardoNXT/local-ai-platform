@@ -25,21 +25,18 @@ export class BaseDomainEvents implements DomainEventType {
   }
 
   public static create({
-    userId,
+    aggregateId,
     eventType,
-    refreshTokenId,
+    payload,
   }: {
-    userId: string;
+    aggregateId: string;
     eventType: EventType;
-    refreshTokenId: string;
+    payload: EventPayload;
   }): DomainEventType {
     return new BaseDomainEvents({
-      aggregateId: refreshTokenId,
+      aggregateId,
       eventType,
-      payload: {
-        refreshTokenId,
-        userId,
-      },
+      payload: payload,
     });
   }
 }
