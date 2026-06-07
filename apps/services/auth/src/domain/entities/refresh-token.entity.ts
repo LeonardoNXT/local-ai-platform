@@ -1,5 +1,7 @@
 import { RefreshTokenStatus } from "../enums/refresh-token-status";
-import type { TokenTimeline } from "../value-objects/token-timeline.vo";
+import { BaseDomainEvents } from "../events/base-domain.events";
+import { AggregateRoot } from "../shared/aggregate-root.shared";
+import { TokenTimeline } from "../value-objects/token-timeline.vo";
 
 export interface RefreshTokenProps {
   tokenHash: string;
@@ -15,11 +17,13 @@ export interface RefreshTokenProps {
   editedAt: Date | null;
 }
 
-export class RefreshToken {
+export class RefreshToken extends AggregateRoot {
   private constructor(
     private readonly _id: string,
-    private _props: RefreshTokenProps,
-  ) {}
+    private readonly _props: RefreshTokenProps,
+  ) {
+    super();
+  }
 
   public static create(
     id: string,
@@ -28,64 +32,138 @@ export class RefreshToken {
       "createdAt" | "latest" | "status" | "editedAt"
     >,
   ): RefreshToken {
-    return new RefreshToken(id, {
+    const refreshToken = new RefreshToken(id, {
       ...props,
       latest: true,
       status: RefreshTokenStatus.ACTIVE,
       createdAt: new Date(),
       editedAt: null,
     });
+
+    refreshToken.addDomainEvent(
+      BaseDomainEvents.create({
+        eventType: "created",
+        refreshTokenId: refreshToken.id,
+        userId: refreshToken.userId,
+      }),
+    );
+
+    return refreshToken;
+  }
+
+  public rotate({
+    refresh_token_id,
+  }: {
+    refresh_token_id: string;
+  }): RefreshToken {
+    const refreshToken = RefreshToken.restore(refresh_token_id, {
+      createdAt: this.createdAt,
+      editedAt: new Date(),
+      latest: false,
+      previousRefreshTokenId: this.previousRefreshTokenId,
+      refreshRound: this.refreshRound,
+      refreshTokenFamilyId: this.refreshTokenFamilyId,
+      replacedByRefreshTokenId: refresh_token_id,
+      status: RefreshTokenStatus.EXPIRED,
+      tokenHash: this.tokenHash,
+      userId: this.userId,
+      timeline: TokenTimeline.restore(
+        this.timeline.expiresAt,
+        new Date(),
+        null,
+      ),
+    });
+
+    refreshToken.addDomainEvent(
+      BaseDomainEvents.create({
+        eventType: "rotated",
+        refreshTokenId: refreshToken.id,
+        userId: refreshToken.userId,
+      }),
+    );
+
+    return refreshToken;
+  }
+
+  public Revoke(): RefreshToken {
+    const refreshToken = RefreshToken.restore(this.id, {
+      createdAt: this.createdAt,
+      editedAt: new Date(),
+      latest: this.latest,
+      previousRefreshTokenId: this.previousRefreshTokenId,
+      refreshRound: this.refreshRound,
+      refreshTokenFamilyId: this.refreshTokenFamilyId,
+      replacedByRefreshTokenId: this.replacedByRefreshTokenId,
+      status: RefreshTokenStatus.REVOKED,
+      timeline: TokenTimeline.restore(
+        this.timeline.expiresAt,
+        new Date(),
+        new Date(),
+      ),
+      tokenHash: this.tokenHash,
+      userId: this.userId,
+    });
+
+    refreshToken.addDomainEvent(
+      BaseDomainEvents.create({
+        eventType: "revoked",
+        refreshTokenId: refreshToken.id,
+        userId: refreshToken.userId,
+      }),
+    );
+
+    return refreshToken;
   }
 
   public static restore(id: string, props: RefreshTokenProps): RefreshToken {
     return new RefreshToken(id, props);
   }
 
-  get id(): string {
+  public get id(): string {
     return this._id;
   }
 
-  get tokenHash(): string {
+  public get tokenHash(): string {
     return this._props.tokenHash;
   }
 
-  get userId(): string {
+  public get userId(): string {
     return this._props.userId;
   }
 
-  get latest(): boolean {
+  public get latest(): boolean {
     return this._props.latest;
   }
 
-  get status(): RefreshTokenStatus {
+  public get status(): RefreshTokenStatus {
     return this._props.status;
   }
 
-  get refreshTokenFamilyId(): string {
+  public get refreshTokenFamilyId(): string {
     return this._props.refreshTokenFamilyId;
   }
 
-  get refreshRound(): number {
+  public get refreshRound(): number {
     return this._props.refreshRound;
   }
 
-  get previousRefreshTokenId(): string | null {
+  public get previousRefreshTokenId(): string | null {
     return this._props.previousRefreshTokenId;
   }
 
-  get replacedByRefreshTokenId(): string | null {
+  public get replacedByRefreshTokenId(): string | null {
     return this._props.replacedByRefreshTokenId;
   }
 
-  get timeline(): TokenTimeline {
+  public get timeline(): TokenTimeline {
     return this._props.timeline;
   }
 
-  get createdAt(): Date {
+  public get createdAt(): Date {
     return this._props.createdAt;
   }
 
-  get editedAt(): Date | null {
+  public get editedAt(): Date | null {
     return this._props.editedAt;
   }
 }

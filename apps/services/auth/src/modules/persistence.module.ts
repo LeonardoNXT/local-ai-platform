@@ -1,6 +1,3 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-
 import { SigningKeyRepositoryPort } from "../application/ports/signing-key.repository.port";
 import { SigningKeyOrmEntity } from "../infrastructure/persistence/entities/signing-key.orm-entity";
 import { TypeormSigningKeyRepository } from "../infrastructure/persistence/repositories/typeorm-signing-key.repository";
@@ -13,6 +10,14 @@ import { TypeormDeviceRepository } from "../infrastructure/persistence/repositor
 import { RefreshTokenFamilyOrmEntity } from "../infrastructure/persistence/entities/refresh-token-family.orm-entity";
 import { RefreshTokenOrmEntity } from "../infrastructure/persistence/entities/refresh-token.orm-entity";
 import { DeviceOrmEntity } from "../infrastructure/persistence/entities/device.orm-entity";
+import {
+  OutboxOrmEntity,
+  OutboxPort,
+  TypeOrmOutboxRepository,
+} from "@local-ai/shared-messenger";
+import { Module } from "@nestjs/common";
+import { DataSource } from "typeorm";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
   imports: [
@@ -21,6 +26,7 @@ import { DeviceOrmEntity } from "../infrastructure/persistence/entities/device.o
       RefreshTokenFamilyOrmEntity,
       RefreshTokenOrmEntity,
       DeviceOrmEntity,
+      OutboxOrmEntity,
     ]),
   ],
   providers: [
@@ -40,12 +46,20 @@ import { DeviceOrmEntity } from "../infrastructure/persistence/entities/device.o
       provide: DeviceRepositoryPort,
       useClass: TypeormDeviceRepository,
     },
+    {
+      provide: OutboxPort,
+      inject: [DataSource],
+      useFactory: (dataSource: DataSource) => {
+        return TypeOrmOutboxRepository.create(dataSource);
+      },
+    },
   ],
   exports: [
     SigningKeyRepositoryPort,
     RefreshTokenFamilyRepositoryPort,
     RefreshTokenRepositoryPort,
     DeviceRepositoryPort,
+    OutboxPort,
   ],
 })
 export class PersistenceModule {}

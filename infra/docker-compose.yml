@@ -142,6 +142,7 @@ services:
       MOCK_PUBLIC_IP: 45.181.33.153
       USER_GRPC_URL: user-service:50051
       DATABASE_NAME: local_ai_auth
+      KAFKA_BROKERS: kafka:9092
     expose:
       - "3002"
     depends_on:

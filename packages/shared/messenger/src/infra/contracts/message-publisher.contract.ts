@@ -1,10 +1,11 @@
 export type MessageSendBatchInput = {
   id: string;
   aggregateId: string;
+  aggregateType: string;
   eventType: string;
   payload: string;
 }[];
 
-export interface MessagePublisherContract {
-  publishBatch(outbox: MessageSendBatchInput): Promise<void>;
+export abstract class MessagePublisherContract {
+  abstract publishBatch(outbox: MessageSendBatchInput): Promise<void>;
 }

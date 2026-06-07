@@ -1,5 +1,5 @@
 import "reflect-metadata";
-export { OutboxOrmEntity } from "./src/infra/outbox/oubox.entity";
+export { OutboxOrmEntity } from "./src/infra/outbox/outbox.entity";
 export { TypeOrmOutboxRepository } from "./src/infra/outbox/outbox.repository";
 export { KafkaInitializer } from "./src/infra/messenger/kafka-initializer";
 export { MessagePublisher } from "./src/infra/messenger/message-publisher";
@@ -14,3 +14,6 @@ export { CONSUME_UNPROCESSED } from "./src/infra/queries/consume-unprocessed";
 export { MARK_AS_PUBLISHED } from "./src/infra/queries/mark-as-published";
 export { type OutboxType } from "./src/infra/dtos/outbox.dto";
 export { type DomainEventModel } from "./src/infra/dtos/domain-events.dto";
+export { OutboxWorkerPort } from "./src/infra/outbox/oubox-worker.port";
+export { AuthTopics } from "./src/infra/contracts/auth.contract";
+export { UserTopics } from "./src/infra/contracts/user.contract";

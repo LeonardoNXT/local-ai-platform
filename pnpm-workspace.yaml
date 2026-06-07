@@ -9,3 +9,7 @@ allowBuilds:
   argon2: true
   esbuild: true
   protobufjs: true
+
+catalog:
+  typeorm: "0.3.30"
+  kafkajs: "2.2.4"

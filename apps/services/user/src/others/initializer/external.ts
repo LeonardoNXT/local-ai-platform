@@ -1,6 +1,7 @@
 import {
   KafkaInitializer,
   MessagePublisher,
+  UserTopics,
   type OutboxPort,
 } from "@local-ai/shared-messenger";
 import { OutboxWorker } from "@local-ai/shared-messenger";
@@ -42,10 +43,24 @@ export class ExternalInitializer {
 
     const grpc = GrpcServer.create(grpcServices);
 
-    const kafka = KafkaInitializer.create({
-      clientId: "user-service",
-      brokers: [process.env.KAFKA_BROKERS || "localhost:9092"],
-    });
+    const kafka = KafkaInitializer.create(
+      {
+        clientId: "user-service",
+        brokers: [process.env.KAFKA_BROKERS || "localhost:9092"],
+      },
+      "user-service",
+    );
+
+    await kafka.admin([
+      UserTopics.BANNED,
+      UserTopics.CREATED,
+      UserTopics.DEACTIVATED,
+      UserTopics.EMAIL_CHANGED,
+      UserTopics.PASSWORD_CHANGED,
+      UserTopics.REACTIVATED,
+      UserTopics.SUSPENDED,
+      UserTopics.USERNAME_CHANGED,
+    ]);
 
     await kafka.producerInitializer();
 

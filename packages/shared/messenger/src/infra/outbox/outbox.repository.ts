@@ -1,5 +1,5 @@
 import { type DataSource, type EntityManager } from "typeorm";
-import { OutboxOrmEntity } from "./oubox.entity";
+import { OutboxOrmEntity } from "./outbox.entity";
 import { CONSUME_UNPROCESSED } from "../queries/consume-unprocessed";
 import { MARK_AS_PUBLISHED } from "../queries/mark-as-published";
 import { type OutboxType } from "../dtos/outbox.dto";
