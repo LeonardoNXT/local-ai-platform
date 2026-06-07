@@ -3,6 +3,7 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
 import { KafkaInitializer, MessagePublisher } from "@local-ai/shared-messenger";
+import { AuthTopics } from "@local-ai/shared-messenger/dist/src/infra/contracts/auth.contract";
 
 async function bootstrap() {
   const kafka = KafkaInitializer.create(
@@ -13,6 +14,8 @@ async function bootstrap() {
   );
 
   await kafka.producerInitializer();
+
+  await kafka.admin([AuthTopics.CREATE, AuthTopics.REVOKED, AuthTopics.ROTATE]);
 
   const messagePublisher = MessagePublisher.create(kafka);
 

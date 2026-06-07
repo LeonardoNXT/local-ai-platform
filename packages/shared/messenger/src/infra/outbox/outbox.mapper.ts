@@ -5,12 +5,12 @@ export class OutboxMapper {
   public static toKafkaBatch(outboxs: MessageSendBatchInput): TopicMessages {
     const normalized: TopicMessages = [];
     for (const outbox of outboxs) {
-      const topicName = `${outbox.aggregateId}.${outbox.eventType}`;
+      const topicName = `${outbox.aggregateType}.${outbox.eventType}`;
       const topic = normalized.find((i) => i.topic === topicName);
 
       if (!topic) {
         const newTopic = {
-          topic: outbox.aggregateId + "." + outbox.eventType,
+          topic: outbox.aggregateType + "." + outbox.eventType,
           messages: [
             {
               key: outbox.aggregateId,

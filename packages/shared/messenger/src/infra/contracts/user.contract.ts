@@ -1,3 +1,14 @@
+export enum UserTopics {
+  CREATED = "user.created",
+  SUSPENDED = "user.suspended",
+  DEACTIVATED = "user.deactivated",
+  BANNED = "user.banned",
+  REACTIVATED = "user.reactivated",
+  EMAIL_CHANGED = "user.emailChanged",
+  PASSWORD_CHANGED = "user.passwordChanged",
+  USERNAME_CHANGED = "user.usernameChanged",
+}
+
 export type UserCreatedEventPayload = {
   email: string;
 };

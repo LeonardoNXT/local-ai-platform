@@ -1,6 +1,7 @@
 export type MessageSendBatchInput = {
   id: string;
   aggregateId: string;
+  aggregateType: string;
   eventType: string;
   payload: string;
 }[];
