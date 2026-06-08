@@ -1,12 +1,17 @@
 # dependencies
 node_modules/
 **/node_modules/
+/.pnp
+.pnp.*
 
-# builds
+# builds & frameworks
 dist/
 **/dist/
 coverage/
 **/coverage/
+/.next/
+/out/
+/build
 
 # generated protobuf
 generated/
@@ -14,17 +19,24 @@ generated/
 
 # env
 .env
+.env*
 **/.env
+**/.env*
 
 # logs
 *.log
 npm-debug.log*
-pnpm-debug.log*
+.pnpm-debug.log*
 
-# editors / OS
+# editors / OS / Vercel
 .DS_Store
 .vscode/
 .idea/
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 # docker local override
 docker-compose.override.yml

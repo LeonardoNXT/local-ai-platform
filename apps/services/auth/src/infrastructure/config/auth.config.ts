@@ -1,4 +1,6 @@
 export const authConfig = {
+  frontEndURL: process.env.FRONT_END_URL,
+
   port: Number(process.env.AUTH_PORT ?? 3002),
 
   issuer: process.env.AUTH_ISSUER ?? "http://localhost:8000",
@@ -41,5 +43,29 @@ export const authConfig = {
 
   mock: {
     publicIp: process.env.MOCK_PUBLIC_IP ?? "45.181.33.153",
+  },
+};
+
+export const OAuthUrls = {
+  google: {
+    auth: () => {
+      const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+
+      url.searchParams.set("client_id", authConfig.google.clientId);
+
+      url.searchParams.set("redirect_uri", authConfig.google.redirectUri);
+
+      url.searchParams.set("response_type", "code");
+
+      url.searchParams.set("scope", "openid email profile");
+
+      url.searchParams.set("state", crypto.randomUUID());
+
+      url.searchParams.set("access_type", "offline");
+
+      url.searchParams.set("prompt", "consent");
+
+      return url.toString();
+    },
   },
 };

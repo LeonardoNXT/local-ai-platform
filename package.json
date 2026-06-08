@@ -4,6 +4,7 @@
   "private": true,
   "packageManager": "pnpm@11.5.0",
   "scripts": {
+    "dev:web": "pnpm --filter @local-ai/web run dev",
     "dev:auth": "pnpm --filter @local-ai/auth-service exec nest start --watch",
     "dev:user": "pnpm --filter @local-ai/user-service run dev",
     "build:auth": "pnpm --filter @local-ai/auth-service run build",
