@@ -18,7 +18,9 @@ import {
 import { Module } from "@nestjs/common";
 import { DataSource } from "typeorm";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { OAuthAcoountsOrmEntity } from "../infrastructure/persistence/entities/oauth-client.orm-entity";
+import { OAuthAccountsOrmEntity } from "../infrastructure/persistence/entities/oauth-client.orm-entity";
+import { OAuthRepositoryPort } from "../application/ports/oauth-repository.port";
+import { TypeormOAuthRepository } from "../infrastructure/persistence/repositories/typeorm-oauth-client.repository";
 
 @Module({
   imports: [
@@ -28,7 +30,7 @@ import { OAuthAcoountsOrmEntity } from "../infrastructure/persistence/entities/o
       RefreshTokenOrmEntity,
       DeviceOrmEntity,
       OutboxOrmEntity,
-      OAuthAcoountsOrmEntity,
+      OAuthAccountsOrmEntity,
     ]),
   ],
   providers: [
@@ -49,6 +51,10 @@ import { OAuthAcoountsOrmEntity } from "../infrastructure/persistence/entities/o
       useClass: TypeormDeviceRepository,
     },
     {
+      provide: OAuthRepositoryPort,
+      useClass: TypeormOAuthRepository,
+    },
+    {
       provide: OutboxPort,
       inject: [DataSource],
       useFactory: (dataSource: DataSource) => {
@@ -61,6 +67,7 @@ import { OAuthAcoountsOrmEntity } from "../infrastructure/persistence/entities/o
     RefreshTokenFamilyRepositoryPort,
     RefreshTokenRepositoryPort,
     DeviceRepositoryPort,
+    OAuthRepositoryPort,
     OutboxPort,
   ],
 })
