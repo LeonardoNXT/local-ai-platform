@@ -43,5 +43,8 @@ jobs:
       - name: Build user service
         run: pnpm build:user
 
+      - name: Build web platform
+        run: pnpm build:web
+
       - name: Build Docker images
         run: docker compose -f infra/docker-compose.yml build

@@ -9,6 +9,7 @@
     "dev:user": "pnpm --filter @local-ai/user-service run dev",
     "build:auth": "pnpm --filter @local-ai/auth-service run build",
     "build:user": "pnpm --filter @local-ai/user-service run build",
+    "build:web": "pnpm --filter @local-ai/web run build",
     "build:packages": "pnpm --filter @local-ai/shared-messenger run build && pnpm --filter @local-ai/shared-grpc run build",
     "generate:proto": "pnpm --filter @local-ai/shared-grpc run generate",
     "docker:up": "docker compose -f infra/docker-compose.yml up --build",
