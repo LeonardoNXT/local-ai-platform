@@ -18,10 +18,7 @@ export class GrpcServer {
   public start(): void {
     if (!User) return;
 
-    this.server.addService(
-      User.UserService,
-      this.servicesHandler.get() as grpc.UntypedServiceImplementation,
-    );
+    this.server.addService(User.UserService, this.servicesHandler.get());
 
     if (!process.env.GRPC_PORT) {
       throw new EnvironmentException(

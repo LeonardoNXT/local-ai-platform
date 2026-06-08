@@ -4,6 +4,7 @@ import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
 import { KafkaInitializer, MessagePublisher } from "@local-ai/shared-messenger";
 import { AuthTopics } from "@local-ai/shared-messenger/dist/src/infra/contracts/auth.contract";
+import cookieParser from "cookie-parser";
 
 async function bootstrap() {
   const kafka = KafkaInitializer.create(
@@ -20,6 +21,8 @@ async function bootstrap() {
   const messagePublisher = MessagePublisher.create(kafka);
 
   const app = await NestFactory.create(AppModule.create(messagePublisher));
+
+  app.use(cookieParser());
 
   app.useGlobalPipes(
     new ValidationPipe({

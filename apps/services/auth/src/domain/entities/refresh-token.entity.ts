@@ -43,8 +43,11 @@ export class RefreshToken extends AggregateRoot {
     refreshToken.addDomainEvent(
       BaseDomainEvents.create({
         eventType: "created",
-        refreshTokenId: refreshToken.id,
-        userId: refreshToken.userId,
+        aggregateId: refreshToken.id,
+        payload: {
+          userId: refreshToken.userId,
+          refreshTokenId: refreshToken.id,
+        },
       }),
     );
 
@@ -77,8 +80,11 @@ export class RefreshToken extends AggregateRoot {
     refreshToken.addDomainEvent(
       BaseDomainEvents.create({
         eventType: "rotated",
-        refreshTokenId: refreshToken.id,
-        userId: refreshToken.userId,
+        aggregateId: refreshToken.id,
+        payload: {
+          userId: refreshToken.userId,
+          refreshTokenId: refreshToken.id,
+        },
       }),
     );
 
@@ -107,8 +113,11 @@ export class RefreshToken extends AggregateRoot {
     refreshToken.addDomainEvent(
       BaseDomainEvents.create({
         eventType: "revoked",
-        refreshTokenId: refreshToken.id,
-        userId: refreshToken.userId,
+        aggregateId: refreshToken.id,
+        payload: {
+          userId: refreshToken.userId,
+          refreshTokenId: refreshToken.id,
+        },
       }),
     );
 

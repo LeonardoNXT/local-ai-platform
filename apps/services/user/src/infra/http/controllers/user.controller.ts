@@ -11,7 +11,10 @@ export class UserController {
 
   @Post()
   public async create(@Body() body: CreateUserInputDto) {
-    const response = await this.usecases.createUserUsecase.execute(body);
+    const response = await this.usecases.createUserUsecase.execute({
+      ...body,
+      isEmailVerified: false,
+    });
 
     return {
       id: response.id,

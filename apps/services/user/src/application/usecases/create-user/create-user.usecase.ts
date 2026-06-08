@@ -40,6 +40,7 @@ export class CreateUserUseCase implements Usecase<
     const email = Email.create(input.email);
     const password = Password.create(input.password);
     const birthday = Birthday.create(input.birthday);
+    const verified = input.isEmailVerified;
 
     const hashedPassword = await this.passwordHasher.hash(password);
 
@@ -49,6 +50,7 @@ export class CreateUserUseCase implements Usecase<
       email: email,
       hashedPassword: hashedPassword,
       birthday: birthday,
+      isEmailVerified: verified,
     });
 
     await this.userRepository.save(user);

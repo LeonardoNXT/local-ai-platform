@@ -18,7 +18,7 @@ export class User extends AggregateRoot {
     const user = new User({
       id: crypto.randomUUID(),
       ...props,
-      isEmailVerified: false,
+      isEmailVerified: props.isEmailVerified,
       status: Status.create(UserStatus.ACTIVE),
       deletedAt: null,
       createdAt: new Date(),
