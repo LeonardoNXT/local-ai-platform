@@ -5,5 +5,5 @@ export type GoogleIdentityPayload = {
 };
 
 export abstract class GoogleIdentityPort {
-  abstract Token(payload: GoogleIdentityPayload): Promise<string>;
+  abstract token(payload: GoogleIdentityPayload): Promise<string>;
 }

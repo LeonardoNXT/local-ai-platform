@@ -1,21 +1,22 @@
 import { Injectable } from "@nestjs/common";
-import { GoogleIdentityPayload } from "../../application/ports/google-identity.port";
+import {
+  GoogleIdentityPayload,
+  GoogleIdentityPort,
+} from "../../application/ports/google-identity.port";
 import { authConfig } from "../config/auth.config";
 
-export type AuthTokenResponse = {
+export type GoogleTokenResponse = {
   access_token: string;
   expires_in: number;
   scope: string;
   token_type: string;
   id_token: string;
-  refresh_token: string;
+  refresh_token?: string;
 };
 
 @Injectable()
-export class GoogleIndentityAdapter {
-  public async getToken(
-    payload: GoogleIdentityPayload,
-  ): Promise<string | undefined> {
+export class GoogleIdentityAdapter implements GoogleIdentityPort {
+  public async token(payload: GoogleIdentityPayload): Promise<string> {
     const body = new URLSearchParams({
       code: payload.code,
       client_id: authConfig.google.clientId,
@@ -24,24 +25,20 @@ export class GoogleIndentityAdapter {
       grant_type: "authorization_code",
     });
 
-    try {
-      const response = await fetch("", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body,
-      });
+    const response = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body,
+    });
 
-      const data = (await response.json()) as AuthTokenResponse;
+    const data = (await response.json()) as GoogleTokenResponse;
 
-      return data.id_token;
-    } catch (err) {
-      new Error(
-        err instanceof Error
-          ? err.message
-          : "Error Ocurrated on get OAuth Google Token",
-      );
+    if (!response.ok) {
+      throw new Error("Error occurred while getting Google OAuth token");
     }
+
+    return data.id_token;
   }
 }

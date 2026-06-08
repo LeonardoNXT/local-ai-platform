@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity("oauth_accounts")
-export class OAuthAcoountsOrmEntity {
+export class OAuthAccountsOrmEntity {
   @PrimaryColumn({ type: "uuid" })
   id!: string;
 

@@ -48,7 +48,7 @@ export class OAuthEntity extends AggregateRoot {
         eventType: "oauth.login",
         payload: {
           provider: payload.provider,
-          providerAccountId: payload.provider,
+          providerAccountId: payload.providerAccountId,
           userId: payload.userId,
         },
       }),
