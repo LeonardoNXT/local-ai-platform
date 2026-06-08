@@ -15,7 +15,8 @@ import {
 } from "@local-ai/shared-messenger";
 import { AppBootstrapModule } from "./modules/app-bootstrap.module";
 import { MessengerModule } from "./modules/messenger.module";
-import { OAuthAcoountsOrmEntity } from "./infrastructure/persistence/entities/oauth-client.orm-entity";
+import { OAuthAccountsOrmEntity } from "./infrastructure/persistence/entities/oauth-client.orm-entity";
+import { OAuthModule } from "./modules/oauth.module";
 
 @Module({})
 export class AppModule {
@@ -36,7 +37,7 @@ export class AppModule {
             SigningKeyOrmEntity,
             RefreshTokenFamilyOrmEntity,
             RefreshTokenOrmEntity,
-            OAuthAcoountsOrmEntity,
+            OAuthAccountsOrmEntity,
             DeviceOrmEntity,
             OutboxOrmEntity,
           ],
@@ -44,6 +45,7 @@ export class AppModule {
         }),
         OidcModule,
         CryptoModule,
+        OAuthModule,
         AuthModule,
         PersistenceModule,
         MessengerModule.create(messagePublisher),
