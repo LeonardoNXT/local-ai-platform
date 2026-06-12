@@ -8,6 +8,9 @@ import { ExternalModule } from "./external.module";
 import { PersistenceModule } from "./persistence.module";
 import { GoogleIdentityPort } from "../application/ports/google-identity.port";
 import { GoogleIdentityAdapter } from "../infrastructure/external/google-identity.adapter";
+import { OAuthRegisterUsecase } from "../application/usecases/register/register-with-oauth.usecase";
+import { OAuthIntentUsecase } from "../application/services/oauth-intent.usecase";
+import { GoogleOAuthService } from "../application/services/google-oauth.service";
 
 @Module({
   imports: [CryptoModule, PersistenceModule, ExternalModule, AdapterModule],
@@ -19,6 +22,9 @@ import { GoogleIdentityAdapter } from "../infrastructure/external/google-identit
     },
     SessionFactoryService,
     LoginWithGoogleUsecase,
+    OAuthRegisterUsecase,
+    OAuthIntentUsecase,
+    GoogleOAuthService,
   ],
 })
 export class OAuthModule {}

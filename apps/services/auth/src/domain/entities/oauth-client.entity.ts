@@ -26,11 +26,12 @@ export class OAuthEntity extends AggregateRoot {
   }
 
   public static create(
+    id: string,
     payload: Omit<OAuthEntityProps, "id" | "createdAt">,
   ): OAuthEntity {
     return new OAuthEntity({
       createdAt: new Date().toISOString(),
-      id: crypto.randomUUID(),
+      id: id,
       provider: payload.provider,
       providerAccountId: payload.providerAccountId,
       userId: payload.userId,

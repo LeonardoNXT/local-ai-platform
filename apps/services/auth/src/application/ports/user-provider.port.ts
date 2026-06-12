@@ -16,5 +16,5 @@ export abstract class UserProviderPort {
     email: string;
     password: string;
   }): Promise<AuthenticatedUser | null>;
-  abstract register(input: RegisterProps): Promise<AuthenticatedUser | null>;
+  abstract register(input: RegisterProps): Promise<AuthenticatedUser>;
 }
