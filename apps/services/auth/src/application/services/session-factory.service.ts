@@ -110,6 +110,7 @@ export class SessionFactoryService {
     }
 
     let deviceToken = input.deviceToken;
+    const deviceExists = Boolean(input.deviceToken);
 
     if (!deviceToken) {
       const deviceEntity = Device.create(this.idGenerator.generate(), {
@@ -129,6 +130,10 @@ export class SessionFactoryService {
     const validatedToken = await this.tokenSigner.verify<{ sub: string }>(
       deviceToken,
     );
+
+    if (deviceExists) {
+      await this.deviceRepository.lastSeenNow({ id: validatedToken.sub });
+    }
 
     return {
       deviceId: validatedToken.sub,

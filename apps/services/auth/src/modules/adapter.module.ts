@@ -3,6 +3,8 @@ import { UserAgentParsePort } from "../application/ports/user-agent-parse.port";
 import { UserAgentParseAdapter } from "../infrastructure/adapter/user-agent-parse.adapter";
 import { AuthConfigPort } from "../application/ports/auth-config.port";
 import { AuthConfigAdapter } from "../infrastructure/adapter/auth-config-adapter";
+import { ClockPort } from "../application/ports/clock.port";
+import { ClockAdapter } from "../infrastructure/adapter/clock.adapter";
 
 @Module({
   providers: [
@@ -14,7 +16,11 @@ import { AuthConfigAdapter } from "../infrastructure/adapter/auth-config-adapter
       provide: AuthConfigPort,
       useClass: AuthConfigAdapter,
     },
+    {
+      provide: ClockPort,
+      useClass: ClockAdapter,
+    },
   ],
-  exports: [UserAgentParsePort, AuthConfigPort],
+  exports: [UserAgentParsePort, AuthConfigPort, ClockPort],
 })
 export class AdapterModule {}

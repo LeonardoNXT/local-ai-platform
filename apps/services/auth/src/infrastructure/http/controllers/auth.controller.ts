@@ -1,16 +1,32 @@
-import { Body, Controller, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { LoginWithPasswordUsecase } from "../../../application/usecases/login/login-with-password.usecase";
 import { LoginRequestDto } from "../dtos/login-request.dto";
 import { IpAddress } from "../decorators/ip-address.decorator";
 import { UserAgent } from "../decorators/user-agent.decorator";
 import { Response } from "express";
 import { authConfig } from "../../config/auth.config";
+import { DeviceToken } from "../decorators/device-token.decorator";
+import { GetDeviceUsecase } from "../../../application/usecases/discovery/get-device.usecase";
 
 @Controller()
 export class AuthController {
   constructor(
     private readonly loginWithPasswordUsecase: LoginWithPasswordUsecase,
+    private readonly GetDeviceUsecase: GetDeviceUsecase,
   ) {}
+
+  @Get("device")
+  public async getDevice(@DeviceToken() deviceToken: string | undefined) {
+    const { device } = await this.GetDeviceUsecase.execute({ deviceToken });
+
+    const response = {
+      name: device.name,
+      location: device.location,
+      lastSeenAt: device.lastSeenAt,
+    };
+
+    return response;
+  }
 
   @Post("login")
   async login(
@@ -58,5 +74,9 @@ export class AuthController {
       path: "/",
       maxAge: authConfig.accessTokenTtlSeconds * 1000,
     });
+
+    return {
+      authenticated: true,
+    };
   }
 }
