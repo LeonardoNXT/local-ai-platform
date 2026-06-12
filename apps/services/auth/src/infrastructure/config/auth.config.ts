@@ -15,6 +15,8 @@ export const authConfig = {
 
   oauthIntentTtlSeconds: Number(process.env.OAUTH_INTENT_TTL_SECONDS ?? 600),
 
+  redisURL: process.env.REDIS_URL,
+
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID ?? "",
     clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",

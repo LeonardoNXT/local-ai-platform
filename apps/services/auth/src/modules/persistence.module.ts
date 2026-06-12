@@ -21,6 +21,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { OAuthAccountsOrmEntity } from "../infrastructure/persistence/entities/oauth-client.orm-entity";
 import { OAuthRepositoryPort } from "../application/ports/oauth-repository.port";
 import { TypeormOAuthRepository } from "../infrastructure/persistence/repositories/typeorm-oauth-client.repository";
+import { PersistenceCachePort } from "../application/ports/persistence-cache.port";
+import { PersistenceCache } from "../infrastructure/persistence/cache/cache.adapter";
 
 @Module({
   imports: [
@@ -55,6 +57,10 @@ import { TypeormOAuthRepository } from "../infrastructure/persistence/repositori
       useClass: TypeormOAuthRepository,
     },
     {
+      provide: PersistenceCachePort,
+      useExisting: PersistenceCache,
+    },
+    {
       provide: OutboxPort,
       inject: [DataSource],
       useFactory: (dataSource: DataSource) => {
@@ -69,6 +75,7 @@ import { TypeormOAuthRepository } from "../infrastructure/persistence/repositori
     DeviceRepositoryPort,
     OAuthRepositoryPort,
     OutboxPort,
+    PersistenceCache,
   ],
 })
 export class PersistenceModule {}
