@@ -18,5 +18,5 @@ export async function http<T>(
     throw new HttpError(response.status, data);
   }
 
-  return response.json() as Promise<T>;
+  return data as T;
 }

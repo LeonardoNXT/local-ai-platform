@@ -90,3 +90,59 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.scale-effect {
+  animation: scaleEffect 4.5s cubic-bezier(0.33, 0, 0.2, 1) both;
+}
+
+@keyframes scaleEffect {
+  from {
+    scale: 2;
+  }
+
+  to {
+    scale: 1;
+  }
+}
+
+.expand-width {
+  animation: expandWidth 2s ease forwards;
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
