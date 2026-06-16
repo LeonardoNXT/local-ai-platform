@@ -1,6 +1,20 @@
+"use client";
+import { toast } from "sonner";
 import OAuthMethods from "./oauth-methods";
+import { useEffect, useRef } from "react";
 
-export default function FirstStepRegister() {
+export default function FirstStepRegister({ error }: { error?: string }) {
+  const hasShowError = useRef<boolean>(false);
+  useEffect(() => {
+    if (error && !hasShowError.current) {
+      toast.error(`Houve um erro no cadastro. Tente novamente. ${error}`, {
+        position: "top-center",
+      });
+
+      hasShowError.current = true;
+    }
+  }, [error]);
+
   return (
     <section className="w-full h-full flex justify-center fade-in">
       <div className="p-10  lg:p-0 w-full lg:w-[30%] h-full flex items-center">

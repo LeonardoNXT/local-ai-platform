@@ -10,19 +10,19 @@ export type RegisterSteps = 1 | 2 | 3 | 4 | undefined;
 
 type PageProps = {
   searchParams: Promise<{
-    oauth: boolean;
     step: RegisterSteps;
+    error?: string;
   }>;
 };
 
 export default async function RegisterPage({ searchParams }: PageProps) {
-  const { oauth, step } = await searchParams;
+  const { step, error } = await searchParams;
 
   return (
     <div className="w-full h-screen flex flex-col">
       <main className="w-full flex-1">
         <RegisterHeader step={step} />
-        <StepsRegisteAgrupate step={step} />
+        <StepsRegisteAgrupate step={step} error={error} />
       </main>
     </div>
   );

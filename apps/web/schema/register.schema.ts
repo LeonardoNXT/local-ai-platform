@@ -21,7 +21,21 @@ export const RegisterSchema = z.object({
     error: "A senha precisa conter pelo menos 8 digitos.",
   }),
 
-  birthday: z.string(),
+  birthday: z.iso.datetime("Selecione uma data válida."),
 });
 
 export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
+
+export const RegisterDeviceSchema = z.object({
+  deviceName: z
+    .string()
+    .min(3, {
+      error:
+        "É necessário pelo menos 3 caractéres para dar nome ao dispositivo.",
+    })
+    .max(15, {
+      error: "O nome do dispositivo pode ter no máximo 15 caractéres.",
+    }),
+});
+
+export type RegisterDeviceSchemaType = z.infer<typeof RegisterDeviceSchema>;

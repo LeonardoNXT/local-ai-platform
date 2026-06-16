@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 export const OauthMethods: OAuthButtonMethods[] = [
   {
     title: "Continuar com Google",
-    redirect_url: "/api/oauth/register/method/google",
+    redirect_url: "/api/oauth/google/register",
     icon: FcGoogle,
   },
   {

@@ -13,6 +13,15 @@ export type RegisterInput = {
   birthday: string;
 };
 
+export type OAuthRegisterInput = {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  birthday: string;
+  deviceName?: string;
+};
+
 export type GetDeviceOutput = {
   name: string;
   location: string;
@@ -47,7 +56,7 @@ export abstract class AuthService {
       body: JSON.stringify(payload),
     });
   }
-  public static oauthRegister(payload: RegisterInput) {
+  public static oauthRegister(payload: OAuthRegisterInput) {
     return http<void>("/api/oauth/register", {
       method: "POST",
       credentials: "include",

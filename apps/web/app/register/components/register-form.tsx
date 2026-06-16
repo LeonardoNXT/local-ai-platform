@@ -1,7 +1,7 @@
 "use client";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterSchema } from "@/schema/register.schema";
+import { RegisterSchema, RegisterSchemaType } from "@/schema/register.schema";
 import { OAuthIntentPayload } from "@/services/auth.service";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -11,17 +11,23 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon } from "lucide-react";
+import { ArrowRight, CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import Image from "next/image";
+import { useRegisterWizard } from "@/store/register-wizard.store";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function RegisterForm({
   oauthIntent,
 }: {
   oauthIntent?: OAuthIntentPayload;
 }) {
-  const { control } = useForm({
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { push } = useRouter();
+  const { setStepOne } = useRegisterWizard();
+  const { control, handleSubmit } = useForm({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       name: oauthIntent?.name ?? "",
@@ -33,25 +39,57 @@ export default function RegisterForm({
     mode: "onSubmit",
   });
 
+  const providerName = oauthIntent?.name
+    ? oauthIntent.provider[0].toUpperCase() +
+      oauthIntent.provider
+        .split("")
+        .filter((letter, i) => i !== 0)
+        .join("")
+    : "Desconhecido";
+
+  const nextHandler = () => {
+    const params = new URLSearchParams(searchParams);
+
+    params.set("step", "3");
+
+    push(`${pathname + "?" + params.toString()}`);
+  };
+
+  const submit = (input: RegisterSchemaType) => {
+    setStepOne(input);
+    nextHandler();
+  };
+
   return (
     <div className="fade-in">
+      <div className="pb-5">
+        <h1 className="text-[30px]">Aqui continuamos com o seu cadastro!</h1>
+        <span className="text-[16px] text-[#bbb]">
+          preencha completamente as informações abaixo para continuar.
+        </span>
+      </div>
       {oauthIntent && (
-        <div className="p-2.5 mb-5 bg-[#111] rounded-3xl border border-[#222] flex gap-2.5">
-          {oauthIntent.picture && (
-            <Image
-              src={oauthIntent.picture}
-              alt="OAuth profile picture"
-              className="rounded-full"
-              width={30}
-              height={30}
-            />
-          )}
-          <span>
-            Parece que voce tentou logar utlizando {oauthIntent.provider}
-          </span>
+        <div className="p-2.5 mb-2.5 border-[#222] border bg-[#111] rounded-[10px] flex flex-row-reverse justify-between items-center">
+          <h2 className=" text-[14px] text-[#bbb] font-medium">
+            {providerName}
+          </h2>
+          <div className="flex items-center gap-2.5">
+            {oauthIntent.picture && (
+              <Image
+                src={oauthIntent.picture}
+                alt="OAuth profile picture"
+                className="rounded-full"
+                width={25}
+                height={25}
+              />
+            )}
+            <span className="text-[16px] text-[#eee] font-light">
+              {oauthIntent.name}
+            </span>
+          </div>
         </div>
       )}
-      <form autoComplete="off">
+      <form autoComplete="off" onSubmit={handleSubmit(submit)}>
         <Controller
           name="name"
           control={control}
@@ -61,7 +99,7 @@ export default function RegisterForm({
               <Input
                 {...field}
                 id="form-name-regiter"
-                type="email"
+                type="text"
                 aria-invalid={fieldState.invalid}
                 placeholder="Nome..."
               />
@@ -77,6 +115,7 @@ export default function RegisterForm({
               <FieldLabel>Email</FieldLabel>
               <Input
                 {...field}
+                disabled={Boolean(oauthIntent)}
                 id="form-email-login"
                 type="email"
                 aria-invalid={fieldState.invalid}
@@ -116,7 +155,7 @@ export default function RegisterForm({
                   <Button
                     type="button"
                     variant="outline"
-                    className="justify-start text-left font-normal py-5 "
+                    className="justify-start text-left font-normal py-5"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
 
@@ -165,6 +204,10 @@ export default function RegisterForm({
             </Field>
           )}
         />
+        <Button className="w-full mt-5 py-4.5" type="submit">
+          Próxima etapa
+          <ArrowRight />
+        </Button>
       </form>
     </div>
   );

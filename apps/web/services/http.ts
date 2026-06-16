@@ -15,7 +15,7 @@ export async function http<T>(
   const data = await response.json();
 
   if (!response.ok) {
-    throw new HttpError(response.status, data);
+    throw new HttpError(response.status, data.error);
   }
 
   return data as T;
