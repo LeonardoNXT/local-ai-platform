@@ -31,6 +31,11 @@ export class TypeormOAuthRepository implements OAuthRepositoryPort {
     await manager.transaction(async (transactionManager) => {
       await transactionManager.save(OAuthAccountsOrmEntity, oauthMapped);
 
+      console.log({
+        name: "OAUTH-SAVED-A-NEW-ACCOUNT",
+        payload: payload.getDomainEvents(),
+      });
+
       await this.outbox.save(payload.getDomainEvents(), transactionManager);
     });
   }

@@ -18,6 +18,10 @@ import {
 import { SigningKeyRepositoryPort } from "../../application/ports/signing-key.repository.port";
 import { authConfig } from "../config/auth.config";
 import { SigningKey } from "../../domain/entities/signing-key.entity";
+import {
+  ActiveSigningKeyNotFoundException,
+  InvalidJwtTokenException,
+} from "../http/errors/keys-errors";
 
 @Injectable()
 export class JoseTokenSignerAdapter implements TokenSignerPort {
@@ -94,19 +98,23 @@ export class JoseTokenSignerAdapter implements TokenSignerPort {
     const signingKey = await this.signingKeyRepository.findActive();
 
     if (!signingKey) {
-      throw new Error("No active signing key found.");
+      throw new ActiveSigningKeyNotFoundException();
     }
 
-    const publicKey = await importSPKI(
-      signingKey.publicKeyPem,
-      signingKey.algorithm,
-    );
+    try {
+      const publicKey = await importSPKI(
+        signingKey.publicKeyPem,
+        signingKey.algorithm,
+      );
 
-    const { payload } = await jwtVerify(token, publicKey, {
-      issuer: authConfig.issuer,
-    });
+      const { payload } = await jwtVerify(token, publicKey, {
+        issuer: authConfig.issuer,
+      });
 
-    return payload as TPayload;
+      return payload as TPayload;
+    } catch (error) {
+      throw new InvalidJwtTokenException();
+    }
   }
 
   public async signOAuthIntent(payload: OAuthIntentPayload): Promise<string> {

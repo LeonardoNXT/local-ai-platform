@@ -16,6 +16,7 @@ export const authConfig = {
   oauthIntentTtlSeconds: Number(process.env.OAUTH_INTENT_TTL_SECONDS ?? 600),
 
   redisURL: process.env.REDIS_URL,
+  redisPassword: process.env.REDIS_PASSWORD,
 
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID ?? "",
@@ -50,7 +51,7 @@ export const authConfig = {
 
 export const OAuthUrls = {
   google: {
-    auth: () => {
+    auth: ({ state }: { state?: string }) => {
       const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
 
       url.searchParams.set("client_id", authConfig.google.clientId);
@@ -61,7 +62,9 @@ export const OAuthUrls = {
 
       url.searchParams.set("scope", "openid email profile");
 
-      url.searchParams.set("state", crypto.randomUUID());
+      if (state) {
+        url.searchParams.set("state", state);
+      }
 
       url.searchParams.set("access_type", "offline");
 
