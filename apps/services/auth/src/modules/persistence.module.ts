@@ -22,7 +22,7 @@ import { OAuthAccountsOrmEntity } from "../infrastructure/persistence/entities/o
 import { OAuthRepositoryPort } from "../application/ports/oauth-repository.port";
 import { TypeormOAuthRepository } from "../infrastructure/persistence/repositories/typeorm-oauth-client.repository";
 import { PersistenceCachePort } from "../application/ports/persistence-cache.port";
-import { PersistenceCache } from "../infrastructure/persistence/cache/cache.adapter";
+import { RedisPersistenceCache } from "../infrastructure/persistence/cache/cache.adapter";
 
 @Module({
   imports: [
@@ -58,7 +58,7 @@ import { PersistenceCache } from "../infrastructure/persistence/cache/cache.adap
     },
     {
       provide: PersistenceCachePort,
-      useExisting: PersistenceCache,
+      useClass: RedisPersistenceCache,
     },
     {
       provide: OutboxPort,
@@ -75,7 +75,7 @@ import { PersistenceCache } from "../infrastructure/persistence/cache/cache.adap
     DeviceRepositoryPort,
     OAuthRepositoryPort,
     OutboxPort,
-    PersistenceCache,
+    PersistenceCachePort,
   ],
 })
 export class PersistenceModule {}

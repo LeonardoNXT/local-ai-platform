@@ -5,6 +5,8 @@ import { AuthConfigPort } from "../application/ports/auth-config.port";
 import { AuthConfigAdapter } from "../infrastructure/adapter/auth-config-adapter";
 import { ClockPort } from "../application/ports/clock.port";
 import { ClockAdapter } from "../infrastructure/adapter/clock.adapter";
+import { TrasnformerPort } from "../application/ports/transformer.port";
+import { TrasnformerAdapter } from "../infrastructure/adapter/transformer.adapter";
 
 @Module({
   providers: [
@@ -20,7 +22,11 @@ import { ClockAdapter } from "../infrastructure/adapter/clock.adapter";
       provide: ClockPort,
       useClass: ClockAdapter,
     },
+    {
+      provide: TrasnformerPort,
+      useClass: TrasnformerAdapter,
+    },
   ],
-  exports: [UserAgentParsePort, AuthConfigPort, ClockPort],
+  exports: [UserAgentParsePort, AuthConfigPort, ClockPort, TrasnformerPort],
 })
 export class AdapterModule {}
