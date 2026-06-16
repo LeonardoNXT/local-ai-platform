@@ -44,6 +44,13 @@ export class Device {
     return new Device(id, props);
   }
 
+  public use(now: string): Device {
+    return new Device(this.id, {
+      ...this,
+      lastSeenAt: now,
+    });
+  }
+
   get id(): string {
     return this._id;
   }

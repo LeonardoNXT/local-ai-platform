@@ -76,6 +76,18 @@ services:
     networks:
       - local-ai
 
+  kafka-ui:
+    image: ghcr.io/kafbat/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: foundation
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      DYNAMIC_CONFIG_ENABLED: "true"
+    networks:
+      - local-ai
+
   qdrant:
     image: qdrant/qdrant:latest
     restart: always
@@ -92,9 +104,21 @@ services:
     restart: always
     ports:
       - "6379:6379"
-    command: redis-server --save 20 1 --loglevel warning --requirepass redis123
+    command: redis-server --save 20 1 --requirepass redis123
     volumes:
       - cache:/data
+    networks:
+      - local-ai
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: redis-insight
+    ports:
+      - "5540:5540"
+    volumes:
+      - redisinsight-data:/data
+    depends_on:
+      - redis
     networks:
       - local-ai
 
@@ -139,6 +163,7 @@ volumes:
   qdrant_storage:
   cache:
   kafka_data:
+  redisinsight-data:
 
 networks:
   local-ai:

@@ -8,10 +8,8 @@ type ExecuteInput = {
   code: string;
   scope?: string;
   state: string;
-
   ip_address: string;
   user_agent: string;
-
   device_token?: string;
   device_name?: string;
 };

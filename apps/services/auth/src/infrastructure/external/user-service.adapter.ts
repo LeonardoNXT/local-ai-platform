@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { User } from "@local-ai/shared-grpc";
 import { credentials } from "@grpc/grpc-js";
-import type { LoginResponse } from "@local-ai/shared-grpc/dist/generated/user-service/user";
 import {
   RegisterProps,
   UserProviderPort,
 } from "../../application/ports/user-provider.port";
 import { GrpcToHttpErrorMapper } from "./mappers/grpc-http-error-mapper";
+import { LoginResponse } from "@local-ai/shared-grpc/dist/generated/user-service/user";
 
 @Injectable()
 export class UserServiceAdapter implements UserProviderPort {
@@ -30,7 +30,10 @@ export class UserServiceAdapter implements UserProviderPort {
     }
   }
 
-  private async login(email: string, password: string): Promise<LoginResponse> {
+  private async login(
+    email: string,
+    password: string,
+  ): Promise<{ id: string }> {
     return await new Promise((resolve, reject) => {
       this.client.login({ email, password }, (error, response) => {
         if (error) {

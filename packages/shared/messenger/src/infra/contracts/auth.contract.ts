@@ -2,6 +2,9 @@ export enum AuthTopics {
   CREATE = "auth.created",
   ROTATE = "auth.rotated",
   REVOKED = "auth.revoked",
+  OAUTH_CONNECT = "auth.oauth.connected",
+  OAUTH_REMOVE = "auth.oauth.removed",
+  OAUTH_LOGIN = "auth.oauth.login",
 }
 
 export type AuthRotateRefreshToken = {

@@ -5,6 +5,7 @@ export type GoogleIdentityPayload = {
   code: string;
   state: string;
   scope?: string;
+  error?: string;
 };
 
 export const GoogleIdentity = createParamDecorator(
@@ -14,11 +15,13 @@ export const GoogleIdentity = createParamDecorator(
     const code = req.query.code;
     const state = req.query.state;
     const scope = req.query.scope;
+    const error = req.query.error;
 
     return {
       code,
       state,
       scope,
+      error,
     };
   },
 );

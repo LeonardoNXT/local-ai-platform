@@ -26,6 +26,12 @@ export class TypeormDeviceRepository implements DeviceRepositoryPort {
     await this.repository.delete(payload.id);
   }
 
+  public async lastSeenNow(payload: { id: string }): Promise<void> {
+    await this.repository.update(payload.id, {
+      last_seen_at: new Date().toISOString(),
+    });
+  }
+
   public async findById(payload: { id: string }): Promise<Device | null> {
     const deviceORM = await this.repository.findOne({
       where: {

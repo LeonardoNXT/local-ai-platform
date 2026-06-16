@@ -90,3 +90,89 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.scale-effect {
+  animation: scaleEffect 4.5s cubic-bezier(0.33, 0, 0.2, 1) both;
+}
+
+@keyframes scaleEffect {
+  from {
+    scale: 2;
+  }
+
+  to {
+    scale: 1;
+  }
+}
+
+.expand-width {
+  animation: expandWidth 2s ease forwards;
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+.text-wave {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #9ca3af 35%,
+    #ffffff 50%,
+    #9ca3af 65%,
+    #ffffff 100%
+  );
+
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  animation: textWave 10s ease-in-out infinite;
+}
+
+@keyframes textWave {
+  0% {
+    background-position: 200% 50%;
+  }
+
+  100% {
+    background-position: -200% 50%;
+  }
+}
