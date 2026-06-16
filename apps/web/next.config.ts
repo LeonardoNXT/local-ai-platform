@@ -4,7 +4,11 @@ import { PHASE_DEVELOPMENT_SERVER, type PHASE_TYPE } from "next/constants";
 export default async function nextConfig(
   phase: PHASE_TYPE,
 ): Promise<NextConfig> {
-  const config: NextConfig = {};
+  const config: NextConfig = {
+    images: {
+      remotePatterns: [new URL("https://lh3.googleusercontent.com/**")],
+    },
+  };
 
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     config.rewrites = async () => [

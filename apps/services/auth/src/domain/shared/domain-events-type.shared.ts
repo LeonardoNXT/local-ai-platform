@@ -1,5 +1,8 @@
 export type RefreshTokenEventsType = "created" | "revoked" | "rotated";
-export type OAuthEventsType = "oauth.login" | "oauth.removed";
+export type OAuthEventsType =
+  | "oauth.login"
+  | "oauth.removed"
+  | "oauth.connected";
 
 export type EventType = RefreshTokenEventsType | OAuthEventsType;
 

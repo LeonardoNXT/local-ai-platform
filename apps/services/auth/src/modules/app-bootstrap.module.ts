@@ -12,6 +12,8 @@ import {
 } from "@local-ai/shared-messenger";
 import { OidcModule } from "./oidc.module";
 import { MessengerModule } from "./messenger.module";
+import { APP_FILTER } from "@nestjs/core";
+import { GlobalExceptionFilter } from "../infrastructure/http/errors/global-exception.filter";
 
 @Module({})
 export class AppBootstrapModule implements OnModuleInit, OnModuleDestroy {
@@ -26,6 +28,12 @@ export class AppBootstrapModule implements OnModuleInit, OnModuleDestroy {
     return {
       module: AppBootstrapModule,
       imports: [OidcModule, MessengerModule.create(messagePublisher)],
+      providers: [
+        {
+          provide: APP_FILTER,
+          useClass: GlobalExceptionFilter,
+        },
+      ],
     };
   }
 
