@@ -62,16 +62,19 @@ export default function ThirdStep() {
 
 function RegisterDeviceName() {
   const { device, firstFormContent, oauthRegister } = useRegister();
+  const onceTime = useRef<boolean>(false);
 
   useEffect(() => {
     if (
-      firstFormContent.name.length !== 0 &&
-      device.status !== "pending" &&
-      device.data !== undefined
+      (firstFormContent.name.length !== 0 &&
+        device.status !== "pending" &&
+        device.data !== undefined,
+      !onceTime.current)
     ) {
       oauthRegister.mutate({
         ...firstFormContent,
       });
+      onceTime.current = true;
     }
   }, [device, firstFormContent, oauthRegister]);
 
