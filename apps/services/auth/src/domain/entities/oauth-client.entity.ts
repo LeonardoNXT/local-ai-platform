@@ -29,24 +29,52 @@ export class OAuthEntity extends AggregateRoot {
     id: string,
     payload: Omit<OAuthEntityProps, "id" | "createdAt">,
   ): OAuthEntity {
-    return new OAuthEntity({
+    const oauthEntity = new OAuthEntity({
       createdAt: new Date().toISOString(),
       id: id,
       provider: payload.provider,
       providerAccountId: payload.providerAccountId,
       userId: payload.userId,
     });
+
+    oauthEntity.addDomainEvent(
+      BaseDomainEvents.create({
+        aggregateId: oauthEntity.id,
+        eventType: "oauth.connected",
+        payload: {
+          provider: oauthEntity.provider,
+          providerAccountId: oauthEntity.providerAccountId,
+          userId: oauthEntity.userId,
+        },
+      }),
+    );
+
+    return oauthEntity;
   }
 
   public static restore(payload: OAuthEntityProps): OAuthEntity {
-    return new OAuthEntity(payload);
+    const oauthEntity = new OAuthEntity(payload);
+
+    oauthEntity.addDomainEvent(
+      BaseDomainEvents.create({
+        aggregateId: oauthEntity.id,
+        eventType: "oauth.login",
+        payload: {
+          provider: oauthEntity.provider,
+          providerAccountId: oauthEntity.providerAccountId,
+          userId: oauthEntity.userId,
+        },
+      }),
+    );
+
+    return oauthEntity;
   }
 
   public static remove(payload: OAuthEntity): void {
     payload.addDomainEvent(
       BaseDomainEvents.create({
         aggregateId: payload.id,
-        eventType: "oauth.login",
+        eventType: "oauth.removed",
         payload: {
           provider: payload.provider,
           providerAccountId: payload.providerAccountId,

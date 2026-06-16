@@ -1,1 +1,1 @@
-export type OAuthFlowIntent = "login" | "register";
+export type OAuthFlowIntent = "login" | "register" | "connect";
