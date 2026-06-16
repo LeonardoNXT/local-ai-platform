@@ -25,7 +25,7 @@ import {
 } from "../../../application/usecases/register/register-with-oauth.usecase";
 import { OAuthRegisterDto } from "../dtos/register-oauth.dto";
 import { OAuthIntentUsecase } from "../../../application/services/oauth-intent.usecase";
-import { GoogleOAuthService } from "../../../application/services/google-oauth.service";
+import { OAuthCacheDistributedService } from "../../../application/services/google-oauth.service";
 
 @Controller("oauth")
 export class OAuthController {
@@ -33,7 +33,7 @@ export class OAuthController {
     private readonly LoginWithGoogleUsecase: LoginWithGoogleUsecase,
     private readonly OAuthRegisterUsecase: OAuthRegisterUsecase,
     private readonly OAuthIntentUsecase: OAuthIntentUsecase,
-    private readonly googleOAuthService: GoogleOAuthService,
+    private readonly OAuthCacheDistributedService: OAuthCacheDistributedService,
   ) {}
 
   @Get("oauthintent")
@@ -47,12 +47,30 @@ export class OAuthController {
 
   @Get("google/login")
   @Redirect(undefined, 302)
-  public getGoogleRouteURL() {
-    const state = this.googleOAuthService.createState("login");
+  public async getGoogleRouteURLLogin() {
+    const { id } = await this.OAuthCacheDistributedService.create({
+      method: "login",
+    });
     return {
-      url: OAuthUrls.google.auth(),
+      url: OAuthUrls.google.auth({
+        state: id,
+      }),
     };
   }
+
+  @Get("google/register")
+  @Redirect(undefined, 302)
+  public async getGoogleRouteURLRegister() {
+    const { id } = await this.OAuthCacheDistributedService.create({
+      method: "register",
+    });
+    return {
+      url: OAuthUrls.google.auth({
+        state: id,
+      }),
+    };
+  }
+
   @Get("google/callback")
   public async getGoogleCallback(
     @GoogleIdentity() identity: GoogleIdentityPayload,
@@ -61,8 +79,29 @@ export class OAuthController {
     @UserAgent() user_agent: string,
     @Res({ passthrough: true }) res: Response,
   ) {
+    const { method } = await this.OAuthCacheDistributedService.get({
+      key: identity.state,
+    });
+
+    console.log("==== METHOD SIGN ====", {
+      method: method,
+    });
+
+    if (!method) {
+      const url = new URL(String(authConfig.frontEndURL) + `/`);
+
+      url.searchParams.set("error", "the_oauth_try_has_expired");
+      url.searchParams.set("type", "Google");
+
+      return res.redirect(url.toString());
+    }
+
     if (identity.error) {
-      const url = new URL(String(authConfig.frontEndURL) + "/login");
+      const url = new URL(String(authConfig.frontEndURL) + `/${method}`);
+
+      if (method === "register") {
+        url.searchParams.set("step", "1");
+      }
 
       url.searchParams.set("error", identity.error);
       url.searchParams.set("type", "Google");
@@ -150,14 +189,14 @@ export class OAuthController {
       );
     }
 
-    res.cookie("device_token", refresh_token, {
+    res.cookie("device_token", device_token, {
       secure: true,
       sameSite: "lax",
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
     });
 
-    res.cookie("refresh_token", device_token, {
+    res.cookie("refresh_token", refresh_token, {
       secure: true,
       sameSite: "lax",
       httpOnly: true,
@@ -170,5 +209,9 @@ export class OAuthController {
       httpOnly: true,
       maxAge: authConfig.accessTokenTtlSeconds * 1000,
     });
+
+    return {
+      success: true,
+    };
   }
 }

@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Res } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Header,
+  HttpException,
+  HttpStatus,
+  Post,
+  Res,
+} from "@nestjs/common";
 import { LoginWithPasswordUsecase } from "../../../application/usecases/login/login-with-password.usecase";
 import { LoginRequestDto } from "../dtos/login-request.dto";
 import { IpAddress } from "../decorators/ip-address.decorator";
@@ -16,7 +25,21 @@ export class AuthController {
   ) {}
 
   @Get("device")
+  @Header(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate",
+  )
+  @Header("Pragma", "no-cache")
+  @Header("Expires", "0")
   public async getDevice(@DeviceToken() deviceToken: string | undefined) {
+    console.log();
+    if (!deviceToken) {
+      throw new HttpException(
+        "The DeviceToken does not exist.",
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
     const { device } = await this.GetDeviceUsecase.execute({ deviceToken });
 
     const response = {
