@@ -1,15 +1,23 @@
-// application/ports/persistence-cache.port.ts
+export type CreatePersistenceModulePayload = {
+  key: string;
+  value: string;
+  config: {
+    expirateInSec: number;
+  };
+};
 
+export type GetPersistenceModulePayload = {
+  key: string;
+};
+
+export type DeletePersistenceModulePayload = {
+  key: string;
+};
 export abstract class PersistenceCachePort {
-  public abstract save<T>(
-    key: string,
-    value: T,
-    ttlInSeconds: number,
+  public abstract create(
+    payload: CreatePersistenceModulePayload,
   ): Promise<void>;
-
-  public abstract consume<T>(key: string): Promise<T | null>;
-
-  public abstract get<T>(key: string): Promise<T | null>;
-
-  public abstract delete(key: string): Promise<void>;
+  public abstract getDel(
+    payload: GetPersistenceModulePayload,
+  ): Promise<string | null>;
 }

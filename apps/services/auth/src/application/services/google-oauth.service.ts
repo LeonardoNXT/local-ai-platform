@@ -1,48 +1,73 @@
-import { Inject, Injectable } from "@nestjs/common";
-
+import { Injectable, Inject } from "@nestjs/common";
 import { PersistenceCachePort } from "../ports/persistence-cache.port";
-import { OAuthFlowIntent } from "../../domain/types/oauth-flow-intent.type";
-import { GoogleOAuthState } from "../../domain/types/google-oauth-state.type";
 import { IdGeneratorPort } from "../ports/id-generator.port";
+import { TrasnformerPort } from "../ports/transformer.port";
 
+type Methods = "login" | "register";
+
+type CreatePayload = {
+  method: Methods;
+};
+
+type ToJSONPayload = {
+  method: Methods;
+};
+
+type GetPayload = {
+  key: string;
+};
+
+type GetResponse = {
+  method: Methods | null;
+};
 @Injectable()
-export class GoogleOAuthService {
-  private static readonly STATE_TTL_IN_SECONDS = 15 * 60;
-
-  private static readonly STATE_KEY_PREFIX = "oauth:google:state:";
-
+export class OAuthCacheDistributedService {
   public constructor(
     @Inject(PersistenceCachePort)
-    private readonly cache: PersistenceCachePort,
+    private readonly persistenceCache: PersistenceCachePort,
     @Inject(IdGeneratorPort) private readonly idGenerator: IdGeneratorPort,
+    @Inject(TrasnformerPort) private readonly transformerType: TrasnformerPort,
   ) {}
 
-  public async createState(intent: OAuthFlowIntent): Promise<string> {
-    const state = this.idGenerator.generate();
+  public async create(input: CreatePayload): Promise<{ id: string }> {
+    const id = this.idGenerator.generate();
 
-    const transaction: GoogleOAuthState = {
-      intent,
-      createdAt: new Date().toISOString(),
+    const payload = {
+      method: input.method,
     };
 
-    await this.cache.save(
-      this.createStateKey(state),
-      transaction,
-      GoogleOAuthService.STATE_TTL_IN_SECONDS,
-    );
+    const stringfied = this.transformerType.toJSON<ToJSONPayload>(payload);
 
-    return state;
+    await this.persistenceCache.create({
+      key: id,
+      value: stringfied,
+      config: {
+        expirateInSec: 60 * 15,
+      },
+    });
+
+    return {
+      id,
+    };
   }
 
-  public async consumeState(state: string): Promise<GoogleOAuthState | null> {
-    if (!state) {
-      return null;
+  public async get(input: GetPayload): Promise<GetResponse> {
+    const valueStringfied = await this.persistenceCache.getDel({
+      key: input.key,
+    });
+
+    if (!valueStringfied) {
+      return {
+        method: null,
+      };
     }
 
-    return this.cache.consume<GoogleOAuthState>(this.createStateKey(state));
-  }
+    const parsedMethod = this.transformerType.toObject<{
+      method: Methods;
+    }>(valueStringfied);
 
-  private createStateKey(state: string): string {
-    return `${GoogleOAuthService.STATE_KEY_PREFIX}${state}`;
+    return {
+      method: parsedMethod.method,
+    };
   }
 }
