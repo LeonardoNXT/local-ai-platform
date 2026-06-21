@@ -1,14 +1,15 @@
 {
-  "extends": "../../../packages/config/ts/base.json",
+  "extends": "../../../tsconfig.jest.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
     "declaration": false,
-    "allowImportingTsExtensions": true,
     "noEmit": false,
+    "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
-    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
+    "types": ["jest", "node"]
   },
-  "include": ["src/**/*.ts", "src/domain/value-objects/device-location.vo.ts"],
-  "exclude": ["node_modules", "dist", "test", "**/*.spec.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "test"]
 }

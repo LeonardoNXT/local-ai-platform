@@ -24,6 +24,7 @@ export default tseslint.config(
       },
       globals: {
         ...globals.node,
+        ...globals.jest,
       },
     },
     rules: {

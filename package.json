@@ -13,16 +13,21 @@
     "build:packages": "pnpm --filter @local-ai/shared-messenger run build && pnpm --filter @local-ai/shared-grpc run build",
     "generate:proto": "pnpm --filter @local-ai/shared-grpc run generate",
     "docker:up": "docker compose -f infra/docker-compose.yml up --build",
-    "docker:down": "docker compose -f infra/docker-compose.yml down"
+    "docker:down": "docker compose -f infra/docker-compose.yml down",
+    "test": "pnpx jest"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@jest/globals": "^30.4.1",
     "@nestjs/cli": "^11.0.21",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.9.1",
     "eslint": "^10.4.1",
     "globals": "^17.6.0",
+    "jest": "^30.4.2",
     "protobufjs": "^8.5.0",
     "protoc": "^25.9.0",
+    "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "ts-proto": "^2.11.8",
     "tsx": "^4.22.4",

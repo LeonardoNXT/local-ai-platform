@@ -1,0 +1,7 @@
+{
+  "extends": "./packages/config/ts/nest.json",
+  "compilerOptions": {
+    "types": ["jest", "node"],
+    "noEmit": true
+  }
+}

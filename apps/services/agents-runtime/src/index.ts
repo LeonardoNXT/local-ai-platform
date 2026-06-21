@@ -1,3 +1,3 @@
-import { bootstrap } from "./infrastructure/others/bootstrap.ts";
+import bootstrap from "./others/bootstrap.ts";
 
 void bootstrap();
