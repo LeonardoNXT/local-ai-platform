@@ -1,3 +1,4 @@
+import { AgentRunEntity } from "../../../domain/entities/agent-run/agent-run.entity.ts";
 import type { Usecase } from "../usecase.ts";
 import type {
   CreateAgentRunInputDto,
@@ -10,5 +11,7 @@ export default class CreateAgentRuntimeUsecase implements Usecase<
 > {
   public execute(
     input: CreateAgentRunInputDto,
-  ): Promise<CreateAgentRunOutputDto> {}
+  ): Promise<CreateAgentRunOutputDto> {
+    const agentRuntime = AgentRunEntity.create({});
+  }
 }
