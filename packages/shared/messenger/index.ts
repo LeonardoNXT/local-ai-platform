@@ -17,3 +17,5 @@ export { type DomainEventModel } from "./src/infra/dtos/domain-events.dto";
 export { OutboxWorkerPort } from "./src/infra/outbox/oubox-worker.port";
 export { AuthTopics } from "./src/infra/contracts/auth.contract";
 export { UserTopics } from "./src/infra/contracts/user.contract";
+export { AgentsTopics } from "./src/infra/contracts/agents-runtime.contract";
+export { type AgentsRuntimePayload } from "./src/infra/contracts/agents-runtime.contract";
