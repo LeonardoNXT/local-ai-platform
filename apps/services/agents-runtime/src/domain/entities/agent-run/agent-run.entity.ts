@@ -28,7 +28,7 @@ type UpdateStatusPayload = {
   updatedAt: string;
 };
 
-export class AgentRunEntity extends AggregateRoot {
+export default class AgentRunEntity extends AggregateRoot {
   private readonly content: AgentRunEntityProps;
 
   private constructor(content: AgentRunEntityProps) {
@@ -40,20 +40,19 @@ export class AgentRunEntity extends AggregateRoot {
     id: string,
     eventId: string,
     content: AgentRunEntityCreateMethodProps,
+    internaljob: {
+      jobId: string;
+      availableAt: string;
+    },
   ): AgentRunEntity {
     const agentRunEntity = new AgentRunEntity({
       id,
       userId: content.userId,
-
       status: "pending",
-
       planning: null,
       plan: null,
-
       currentStepIndex: 0,
-
       artifacts: [],
-
       createdAt: content.createdAt,
       updatedAt: content.updatedAt,
     });
@@ -62,12 +61,25 @@ export class AgentRunEntity extends AggregateRoot {
       aggregateId: agentRunEntity.id,
       aggregateType: "agents",
       eventId: eventId,
-      eventType: "create",
+      eventType: "created",
       occurredAt: new Date(agentRunEntity.createdAt),
       payload: {
         id: agentRunEntity.id,
         userId: agentRunEntity.userId,
+        status: agentRunEntity.status,
       },
+    });
+
+    agentRunEntity.addInternalJob({
+      id: internaljob.jobId,
+      runId: agentRunEntity.id,
+      attempts: 0,
+      availableAt: internaljob.availableAt,
+      createdAt: content.createdAt,
+      maxAttempts: 5,
+      status: "pending",
+      type: "generate_plan",
+      updatedAt: content.updatedAt,
     });
 
     return agentRunEntity;

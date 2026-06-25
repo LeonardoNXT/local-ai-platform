@@ -1,4 +1,4 @@
-import { AgentRunEntity } from "./agent-run.entity.ts";
+import AgentRunEntity from "./agent-run.entity.ts";
 
 describe("[ AGENT-RUN-ENTITY ]", () => {
   it("[CREATE] it must create a immutable instance of the class", () => {
@@ -9,6 +9,10 @@ describe("[ AGENT-RUN-ENTITY ]", () => {
         createdAt: "2025-03-01T00:00:00z",
         updatedAt: "2025-03-01T00:00:00z",
         userId: "0000-0000-0000-000",
+      },
+      {
+        availableAt: "2025-03-01T00:00:00z",
+        jobId: "0000-0000-0000-0001",
       },
     );
     expect(agentRuntime).toBeInstanceOf(AgentRunEntity);
