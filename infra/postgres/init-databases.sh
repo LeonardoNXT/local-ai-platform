@@ -15,4 +15,9 @@ WHERE NOT EXISTS (
   SELECT FROM pg_database WHERE datname = 'local_ai_user'
 )\gexec
 
+SELECT 'CREATE DATABASE local_ai_agents_runtime'
+WHERE NOT EXISTS (
+  SELECT FROM pg_database WHERE datname = 'local_ai_agents_runtime'
+)\gexec
+
 EOSQL
