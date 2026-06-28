@@ -1,4 +1,4 @@
 export default abstract class Worker {
-  abstract start(...args: unknown[]): void;
+  abstract start(...args: unknown[]): Promise<void>;
   abstract stop(): void;
 }

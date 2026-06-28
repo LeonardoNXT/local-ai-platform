@@ -73,7 +73,7 @@ export type LLMModelProfile = {
 export type AgentRunPlanning = {
   analysis: PlanningRouteAnalysis;
 
-  selectedModel: {
+  R: {
     provider: LLMProvider;
     llm: LLMModel;
     intelligence: LLMIntelligence;
@@ -86,6 +86,14 @@ export type AgentRunPlanning = {
   status: "pending" | "running" | "completed" | "failed";
 };
 
+export type StepKind =
+  | "model_call"
+  | "tool_call"
+  | "memory_search"
+  | "knowledge_search"
+  | "subrun"
+  | "final_assembly";
+
 export type Step = {
   id: string;
   index: number;
@@ -93,17 +101,12 @@ export type Step = {
   objective: string;
   summary: string;
 
-  kind:
-    | "model_call"
-    | "tool_call"
-    | "memory_search"
-    | "knowledge_search"
-    | "subrun"
-    | "final_assembly";
+  kind: StepKind;
 
   modelPreference?: {
-    provider?: LLMProvider;
+    provider?: LLMProvider[];
     intelligence?: LLMIntelligence;
+    allowFallback: boolean;
   };
 
   inputKeys: string[];
@@ -142,7 +145,7 @@ export type AgentRunEntityProps = {
 
   planning: AgentRunPlanning | null;
 
-  plan: AgentRunPlan | null;
+  plan: null;
 
   currentStepIndex: number;
 
