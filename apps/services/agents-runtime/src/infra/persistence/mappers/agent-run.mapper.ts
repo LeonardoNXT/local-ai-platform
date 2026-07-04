@@ -1,38 +1,38 @@
 import AgentRunEntity from "../../../domain/entities/agent-run/agent-run.entity.ts";
-import { AgentRunEntityOrm } from "../entities/agent-run-orm.entity.ts";
+import AgentRunEntityOrm from "../entities/agent-run-orm.entity.ts";
 
-export default abstract class AgentRunMapper {
-  public static toOrm(payload: {
-    agentRun: AgentRunEntity;
-  }): AgentRunEntityOrm {
+export default class AgentRunMapper {
+  public static toOrm(payload: AgentRunEntity): AgentRunEntityOrm {
     const orm = new AgentRunEntityOrm();
 
-    orm.artifacts = payload.agentRun.artifacts;
-    orm.createdAt = payload.agentRun.createdAt;
-    orm.currentStepIndex = payload.agentRun.currentStepIndex;
-    orm.id = payload.agentRun.id;
-    orm.plan = payload.agentRun.plan;
-    orm.planning = payload.agentRun.planning;
-    orm.status = payload.agentRun.status;
-    orm.updatedAt = payload.agentRun.updatedAt;
-    orm.userId = payload.agentRun.userId;
+    orm.agentRunInputId = payload.agentRunInputId;
+    orm.agentRunOutputId = payload.agentRunOutputId;
+    orm.createdAt = payload.createdAt;
+    orm.currentStepId = payload.currentStepId;
+    orm.currentStepIndex = payload.currentStepIndex;
+    orm.id = payload.id;
+    orm.planId = payload.planId;
+    orm.planningId = payload.planningId;
+    orm.status = payload.status;
+    orm.updatedAt = payload.updatedAt;
+    orm.userId = payload.userId;
 
     return orm;
   }
 
-  public static toDomain(payload: {
-    agentRunOrm: AgentRunEntityOrm;
-  }): AgentRunEntity {
-    return AgentRunEntity.recreate({
-      artifacts: payload.agentRunOrm.artifacts,
-      createdAt: payload.agentRunOrm.createdAt,
-      currentStepIndex: payload.agentRunOrm.currentStepIndex,
-      id: payload.agentRunOrm.id,
-      plan: payload.agentRunOrm.plan,
-      planning: payload.agentRunOrm.planning,
-      status: payload.agentRunOrm.status,
-      updatedAt: payload.agentRunOrm.updatedAt,
-      userId: payload.agentRunOrm.userId,
+  public static toDomain(payload: AgentRunEntityOrm): AgentRunEntity {
+    return AgentRunEntity.restore({
+      agent_run_input_id: payload.agentRunInputId,
+      created_at: payload.createdAt,
+      current_step_index: payload.currentStepIndex,
+      id: payload.id,
+      status: payload.status,
+      updated_at: payload.updatedAt,
+      user_id: payload.userId,
+      agent_run_output_id: payload.agentRunOutputId,
+      current_step_id: payload.currentStepId,
+      plan_id: payload.planId,
+      planning_id: payload.planningId,
     });
   }
 }

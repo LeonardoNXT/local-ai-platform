@@ -1,5 +1,8 @@
 import { Module } from "@nestjs/common";
-import { OutboxPort, TypeOrmOutboxRepository } from "@local-ai/shared-messenger";
+import {
+  OutboxPort,
+  TypeOrmOutboxRepository,
+} from "@local-ai/shared-messenger";
 import { DataSource } from "typeorm";
 import AgentRunRepositoryPort from "../../../application/ports/agent-run-repository.port.ts";
 import AgentRunRepository from "../../../infra/persistence/repositories/agent-run.repository.ts";
@@ -14,7 +17,7 @@ import InternalAgentJobComposition from "../../../infra/persistence/composition/
     },
     {
       provide: OutboxPort,
-      inject: [TypeOrmInitializer],
+      inject: [DataSource],
       useFactory: (dataSource: DataSource) => {
         return TypeOrmOutboxRepository.create(dataSource);
       },

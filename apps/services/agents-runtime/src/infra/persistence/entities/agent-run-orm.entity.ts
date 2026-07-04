@@ -1,13 +1,8 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
-import {
-  AgentRunArtifact,
-  AgentRunPlan,
-  AgentRunPlanning,
-  Status,
-} from "../../../domain/entities/agent-run/agent-run.props.ts";
+import { Status } from "../../../domain/types/props/agent-run.props.ts";
 
 @Entity("agent_run")
-export class AgentRunEntityOrm {
+export default class AgentRunEntityOrm {
   @PrimaryColumn({ name: "id", type: "uuid" })
   id!: string;
   @Column({
@@ -18,20 +13,26 @@ export class AgentRunEntityOrm {
   })
   status!: Status;
 
+  @Column({ name: "agent_run_input_id", type: "uuid" })
+  agentRunInputId!: string;
+
+  @Column({ name: "agent_run_input_output", type: "uuid", nullable: true })
+  agentRunOutputId!: string | undefined;
+
   @Column({ name: "user_id", type: "uuid" })
   userId!: string;
 
-  @Column({ name: "planning", type: "jsonb", nullable: true, default: null })
-  planning!: AgentRunPlanning | null;
+  @Column({ name: "planning_id", type: "uuid", nullable: true, default: null })
+  planningId!: string | undefined;
 
-  @Column({ name: "plan", type: "jsonb", nullable: true, default: null })
-  plan!: AgentRunPlan | null;
+  @Column({ name: "plan_id", type: "uuid", nullable: true, default: null })
+  planId!: string | undefined;
+
+  @Column({ name: "current_step_id", type: "uuid", nullable: true })
+  currentStepId!: string | undefined;
 
   @Column({ name: "current_step_index", type: "integer" })
   currentStepIndex!: number;
-
-  @Column({ name: "artifacts", type: "jsonb", default: null })
-  artifacts!: AgentRunArtifact[];
 
   @Column({ name: "created_at", type: "timestamp" })
   createdAt!: string;

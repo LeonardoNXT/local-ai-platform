@@ -14,6 +14,7 @@ export type LLMIntelligence = "low" | "medium" | "high";
 export type Status =
   | "pending"
   | "planning"
+  | "planned"
   | "running"
   | "waiting_confirmation"
   | "deferred"
@@ -140,26 +141,23 @@ export type AgentRunArtifact = {
 
 export type AgentRunEntityProps = {
   id: string;
+  user_id: string;
+  agent_run_input_id: string;
+  agent_run_output_id?: string;
+  plan_id?: string;
+  planning_id?: string;
+  current_step_id?: string;
+  current_step_index: number;
   status: Status;
-  userId: string;
-
-  planning: AgentRunPlanning | null;
-
-  plan: null;
-
-  currentStepIndex: number;
-
-  artifacts: AgentRunArtifact[];
-
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 };
+
 export type AgentRunEntityCreateMethodProps = {
-  userId: string;
-
-  createdAt: string;
-
-  updatedAt: string;
+  user_id: string;
+  agent_run_input_id: string;
+  created_at: string;
+  updated_at: string;
 };
 
 export type AgentRunEntityStarterMethodProps = {
